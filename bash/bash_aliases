@@ -1,0 +1,31 @@
+# Sourced by ~/.bashrc; kept separate so the distro-default .bashrc stays untouched.
+
+alias c='code -g'
+alias cw='cd ${workspaceFolder}'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias log='script /tmp/$(date +%m%d_%H%M_%S).log -c'
+
+# When using tab completion, do not add a backslash
+shopt -s direxpand
+
+# cd by typing a directory name alone
+shopt -s autocd
+
+# Up/down arrow: search history by what's already typed as a prefix
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
+
+# Sync history across concurrently open terminals instead of only at shell exit
+PROMPT_COMMAND="history -a; history -c; history -r"
+
+# `code` CLI only exists when a VS Code client is actually connected.
+if command -v code >/dev/null 2>&1; then
+  export EDITOR='code --wait'
+  export VISUAL='code --wait'
+else
+  export EDITOR='vi'
+  export VISUAL='vi'
+fi
+
+[ -f "$HOME/.bash_aliases.local" ] && . "$HOME/.bash_aliases.local"
