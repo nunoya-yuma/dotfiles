@@ -1,0 +1,64 @@
+{
+  "cmake.configureOnEdit": false,
+  "cmake.configureOnOpen": false,
+  "chat.agent.enabled": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "editor.acceptSuggestionOnEnter": "off",
+  "editor.fontFamily": "Consolas, Meiryo UI, 'Courier New', monospace",
+  "editor.fontSize": 13,
+  "editor.formatOnSave": true,
+  "editor.renderWhitespace": "all",
+  "editor.snippetSuggestions": "top",
+  // When a file is selected,
+  // the file tree does not move the focus location
+  "explorer.autoReveal": false,
+  "explorer.confirmDelete": false,
+  "explorer.confirmDragAndDrop": false,
+  // Show .git/
+  "files.exclude": {
+    "**/.git": false
+  },
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.trimTrailingWhitespace": true,
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.detectSubmodulesLimit": 100,
+  "git.suggestSmartCommit": false,
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "gitlens.views.stashes.files.layout": "list",
+  "ruff.lint.select": [
+    "ALL"
+  ],
+  "ruff.lint.ignore": [
+    "D1", // undocumented
+    "D203",
+    "D213",
+    "COM812"
+  ],
+  "search.exclude": {
+    "**/.git": true,
+    "**/build*": true
+  },
+  "search.defaultViewMode": "tree",
+  "search.showLineNumbers": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "terminal.integrated.cursorStyle": "line",
+  "terminal.integrated.enableMultiLinePasteWarning": "never",
+  // Set environment variables
+  "terminal.integrated.env.linux": {
+    "workspaceFolder": "${workspaceFolder}"
+  },
+  "terminal.integrated.scrollback": 5000,
+  "terminal.integrated.suggest.enabled": true,
+  "workbench.colorCustomizations": {
+    // Color of Selected line
+    "editor.lineHighlightBackground": "#303030"
+  },
+  "workbench.editor.closeOnFileDelete": true,
+  "workbench.editor.enablePreview": false,
+  // Open tabs on multiple lines
+  "workbench.editor.wrapTabs": true,
+  "workbench.startupEditor": "none",
+  "window.zoomLevel": 1.8,
+}

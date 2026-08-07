@@ -1,0 +1,97 @@
+// Reference only — VS Code has no remote-scoped keybindings, so this is
+// never applied automatically by install.sh. See README for how to apply
+// it manually (Keyboard Shortcuts (JSON) editor), e.g. when using a
+// browser-based Codespace with no local VS Code profile.
+[
+    // ctrl + tab and ctrl + shift + tab -> move tab
+    {
+        "key": "ctrl+tab",
+        "command": "workbench.action.nextEditor",
+    },
+    {
+        "key": "ctrl+pageDown",
+        "command": "-workbench.action.nextEditor",
+    },
+    {
+        "key": "ctrl+shift+tab",
+        "command": "workbench.action.previousEditor",
+    },
+    {
+        "key": "ctrl+pageup",
+        "command": "-workbench.action.previousEditor",
+    },
+    {
+        "key": "ctrl+alt+oem_minus",
+        "command": "workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    {
+        "key": "alt+left",
+        "command": "-workbench.action.navigateBack",
+        "when": "canNavigateBack"
+    },
+    // ctrl + \ -> split file
+    {
+        "key": "ctrl+oem_5",
+        "command": "-workbench.action.splitEditor"
+    },
+    {
+        "key": "ctrl+oem_5",
+        "command": "workbench.action.splitEditorInGroup",
+        "when": "activeEditorCanSplitInGroup"
+    },
+    {
+        "key": "ctrl+k ctrl+shift+oem_5",
+        "command": "-workbench.action.splitEditorInGroup",
+        "when": "activeEditorCanSplitInGroup"
+    },
+    {
+        "key": "ctrl+oem_5",
+        "command": "workbench.action.joinEditorInGroup",
+        "when": "sideBySideEditorActive"
+    },
+    {
+        "key": "ctrl+k ctrl+shift+oem_5",
+        "command": "-workbench.action.joinEditorInGroup",
+        "when": "sideBySideEditorActive"
+    },
+    // Move file to other editor group
+    {
+        "key": "ctrl+k right",
+        "command": "-workbench.action.moveActiveEditorGroupRight"
+    },
+    {
+        "key": "ctrl+k right",
+        "command": "-views.moveViewRight",
+        "when": "focusedView != ''"
+    },
+    {
+        "key": "ctrl+k right",
+        "command": "workbench.action.moveEditorToRightGroup"
+    },
+    {
+        "key": "ctrl+k left",
+        "command": "workbench.action.moveEditorToLeftGroup"
+    },
+    {
+        "key": "ctrl+k left",
+        "command": "-workbench.action.moveActiveEditorGroupLeft"
+    },
+    {
+        "key": "ctrl+k left",
+        "command": "-views.moveViewLeft",
+        "when": "focusedView != ''"
+    },
+    // Remove ctrl enter to generate code(Github Copilot)
+    {
+        "key": "ctrl+enter",
+        "command": "-github.copilot.generate",
+        "when": "editorTextFocus && github.copilot.activated && !commentEditorFocused"
+    },
+    // Maximize the terminal window
+    {
+        "key": "ctrl+k ctrl+m",
+        "command": "workbench.action.toggleMaximizedPanel",
+        "when": "panelFocus"
+    },
+]
