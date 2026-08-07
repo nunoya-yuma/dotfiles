@@ -19,8 +19,18 @@ Personal environment setup, managed so it can be reproduced automatically on
   *remote-scoped* settings file: it applies inside any vscode-server-backed
   connection (WSL, SSH, Dev Containers, Codespaces — including a
   browser-based Codespace), independent of which local client connects.
-- `vscode/extensions.txt` — extension IDs installed via
-  `code --install-extension` (one per line).
+- `vscode/extensions.txt` — extension IDs to install via
+  `code --install-extension` (one per line). **Not installed automatically
+  by Codespaces' dotfiles provisioning** — at that point in the container
+  lifecycle no VS Code client has connected yet, so the `code` CLI has
+  nothing to talk to and the install silently fails (`install.sh` logs
+  this and moves on rather than aborting). To actually install them,
+  re-run `./install.sh` manually after connecting, or rely on VS Code's
+  Settings Sync. For extensions a specific *project* always needs
+  regardless of who opens it, use that project's own
+  `devcontainer.json` → `customizations.vscode.extensions` instead — that
+  installs automatically because the connecting client (not this script)
+  is what triggers it.
 - `vscode/keybindings.json` — **reference only, not applied automatically.**
   VS Code has no remote/machine scope for keybindings — they always come
   from the connecting client's own local profile (e.g. the desktop app's
@@ -37,8 +47,9 @@ Personal environment setup, managed so it can be reproduced automatically on
 
 Run `./install.sh` (idempotent — safe to re-run). It symlinks the files
 above into `$HOME` (backing up any pre-existing non-symlink file it would
-overwrite as `<file>.bak.<timestamp>`), then installs the VS Code
-extensions. `vscode/keybindings.json` is skipped — see above.
+overwrite as `<file>.bak.<timestamp>`), then attempts to install the VS
+Code extensions (see caveat above). `vscode/keybindings.json` is skipped —
+see above.
 
 ### Codespaces
 

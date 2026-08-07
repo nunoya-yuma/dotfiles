@@ -40,10 +40,14 @@ link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 # see README for manual setup.
 link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
 
+# The `code` CLI only works once a client has actually connected — during
+# Codespaces' automatic dotfiles provisioning (this script), no client is
+# attached yet, so this reliably fails there. Re-run install.sh manually
+# after connecting to actually install extensions this way.
 if command -v code >/dev/null 2>&1 && [ -f "$DOTFILES_DIR/vscode/extensions.txt" ]; then
   while IFS= read -r ext; do
     [ -z "$ext" ] && continue
-    code --install-extension "$ext" --force
+    code --install-extension "$ext" --force || echo "Skipped $ext (no VS Code client connected yet)"
   done < "$DOTFILES_DIR/vscode/extensions.txt"
 fi
 
