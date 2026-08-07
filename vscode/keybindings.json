@@ -94,4 +94,10 @@
         "command": "workbench.action.toggleMaximizedPanel",
         "when": "panelFocus"
     },
+    // Focus the terminal accessible view
+    {
+        "key": "ctrl+shift+l",
+        "command": "editor.action.accessibleView",
+        "when": "terminalFocus"
+    }
 ]
