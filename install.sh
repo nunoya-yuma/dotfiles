@@ -59,6 +59,15 @@ if [ -d "$HOME/.vscode-server" ]; then
   link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
 fi
 
+# zsh isn't installed on every machine this repo targets, so its VS Code
+# terminal profile default can't live in the tracked settings.json (a
+# machine without zsh would fail to launch a terminal). Nudge instead: add
+# it yourself to the machine-local section at the bottom of
+# vscode/settings.json, and never commit that line.
+if command -v zsh >/dev/null 2>&1 && ! grep -q '"terminal.integrated.defaultProfile.linux"' "$DOTFILES_DIR/vscode/settings.json"; then
+  echo "zsh detected — add \"terminal.integrated.defaultProfile.linux\": \"zsh\" to the machine-local section at the bottom of vscode/settings.json (do not commit it)."
+fi
+
 # The `code` CLI only works once a client has actually connected — during
 # Codespaces' automatic dotfiles provisioning (this script), no client is
 # attached yet, so this reliably fails there. Re-run install.sh manually
