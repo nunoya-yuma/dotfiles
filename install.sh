@@ -31,6 +31,24 @@ EOF
   echo "Created $LOCAL_ALIASES"
 fi
 
+# zsh isn't installed on every machine this repo targets, so only link it
+# when it's actually present — an inert ~/.zshrc otherwise just adds
+# clutter to a machine that never uses it.
+if command -v zsh >/dev/null 2>&1; then
+  link "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
+
+  ZSH_LOCAL="$HOME/.zshrc.local"
+  if [ ! -e "$ZSH_LOCAL" ]; then
+    cat > "$ZSH_LOCAL" <<'EOF'
+# Machine-specific zsh additions.
+# Not tracked by the dotfiles repo — put secrets or one-off local
+# settings here instead of in zsh/zshrc.
+# Sourced automatically by ~/.zshrc if present.
+EOF
+    echo "Created $ZSH_LOCAL"
+  fi
+fi
+
 # git
 link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
