@@ -35,10 +35,22 @@ fi
 link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 
-# vscode — Machine-scoped remote settings (applies to any client, incl. browser).
-# keybindings.json has no such remote scope in VS Code, so it's not linked here;
-# see README for manual setup.
-link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
+# vscode
+# A pre-existing ~/.vscode-server means install.sh is running inside a
+# vscode-server-backed connection (WSL, SSH, Dev Containers, Codespaces) —
+# that dir is created by the server itself, before this script ever runs.
+# Otherwise, this is a plain local machine and VS Code's own User dir is
+# directly reachable, so everything can be symlinked normally.
+if [ -d "$HOME/.vscode-server" ]; then
+  # Machine-scoped remote settings (applies to any client, incl. browser).
+  # keybindings.json has no such remote scope in VS Code, so it's not
+  # linked here; see README for manual setup.
+  link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
+else
+  VSCODE_USER_DIR="$HOME/.config/Code/User"
+  link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+  link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+fi
 
 # The `code` CLI only works once a client has actually connected — during
 # Codespaces' automatic dotfiles provisioning (this script), no client is
