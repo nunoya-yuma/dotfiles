@@ -1,0 +1,153 @@
+{
+    "fn: impl function": {
+        "prefix": "fn",
+        "body": [
+            "fn $1 (&self$2) $3 {",
+            "\t$4",
+            "}"
+        ],
+        "description": "impl function"
+    },
+    "fn: impl function(pub)": {
+        "prefix": "fn",
+        "body": [
+            "pub fn $1 (&self$2) $3 {",
+            "\t$4",
+            "}"
+        ],
+        "description": "impl function(pub)"
+    },
+    "fn: Normal function": {
+        "prefix": "fn",
+        "body": [
+            "fn $1 ($2) $3 {",
+            "\t$4",
+            "}"
+        ],
+        "description": "Normal function"
+    },
+    "fn: Normal function(pub)": {
+        "prefix": "fn",
+        "body": [
+            "pub fn $1 ($2) $3 {",
+            "\t$4",
+            "}"
+        ],
+        "description": "Normal function(pub)"
+    },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for ${1:i} in ${2:0..n} {",
+            "\t$3",
+            "}"
+        ],
+        "description": "Normal function"
+    },
+    "if: Normal if": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$2",
+            "}"
+        ],
+        "description": "Normal if"
+    },
+    "if: if and else": {
+        "prefix": "if else",
+        "body": [
+            "if ${1:condition} {",
+            "\t$2",
+            "}else{",
+            "\t$3",
+            "}",
+        ],
+        "description": "if and else"
+    },
+    "if: if and else if": {
+        "prefix": "if else if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$2",
+            "}else if ${3:condition}{",
+            "\t$4",
+            "}",
+        ],
+        "description": "if and else if"
+    },
+    "impl": {
+        "prefix": "impl",
+        "body": [
+            "impl $1 {",
+            "\tfn $2 (&self$3) $4 {",
+            "\t\t$5",
+            "\t}",
+            "}"
+        ],
+        "description": "impl"
+    },
+    "impl: for trait": {
+        "prefix": "impl",
+        "body": [
+            "impl ${1:trait} for ${2:struct} {",
+            "\tfn $3 (&self$4) $5 {",
+            "\t\t$6",
+            "\t}",
+            "}"
+        ],
+        "description": "impl: for trait"
+    },
+    "main: Main function": {
+        "prefix": "main",
+        "body": [
+            "fn main () {",
+            "\t$1",
+            "}"
+        ],
+        "description": "Create module"
+    },
+    "match": {
+        "prefix": "match",
+        "body": [
+            "match $1 {",
+            "\t$2 => $3,",
+            "\t_ => $4,",
+            "}"
+        ],
+        "description": "match"
+    },
+    "mod: Create module": {
+        "prefix": "mod",
+        "body": [
+            "mod ${1:module} {",
+            "\t$2",
+            "}"
+        ],
+        "description": "Create module"
+    },
+    "println!: Print to console": {
+        "prefix": "println!",
+        "body": [
+            "println!(\"{$1}\"$2);",
+        ],
+        "description": "Log output to console"
+    },
+    "struct: Create struct": {
+        "prefix": "struct",
+        "body": [
+            "struct ${1:name} {",
+            "\t${2:m_value}: ${3:type},",
+            "}"
+        ],
+        "description": "Create struct"
+    },
+    "trait: Create trait": {
+        "prefix": "trait",
+        "body": [
+            "trait ${1:name} {",
+            "\tfn ${2:func}(&self$3) -> ${4:ret};",
+            "}"
+        ],
+        "description": "Create trait"
+    },
+}

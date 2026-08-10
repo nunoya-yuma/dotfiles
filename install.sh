@@ -64,6 +64,7 @@ link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 VSCODE_USER_DIR="$HOME/.config/Code/User"
 link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
 link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"
 
 # Machine-scoped remote settings (applies to any client, incl. browser,
 # connecting to this machine over vscode-server). Only linked if
@@ -76,6 +77,12 @@ link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 if [ -d "$HOME/.vscode-server" ]; then
   link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
 fi
+
+# Snippets, like keybindings.json above, have no remote/machine scope in VS
+# Code — the docs classify snippets as a UI Extension resource, always run
+# on the local client, so a remote session uses the connecting client's own
+# local snippets rather than anything on the remote host. No remote link
+# needed here.
 
 # zsh isn't installed on every machine this repo targets, so its VS Code
 # terminal profile default can't live in the tracked settings.json (a
