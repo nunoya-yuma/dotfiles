@@ -36,20 +36,27 @@ link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 
 # vscode
-# A pre-existing ~/.vscode-server means install.sh is running inside a
-# vscode-server-backed connection (WSL, SSH, Dev Containers, Codespaces) —
-# that dir is created by the server itself, before this script ever runs.
-# Otherwise, this is a plain local machine and VS Code's own User dir is
-# directly reachable, so everything can be symlinked normally.
+# A single machine can be used both as a local desktop and, at other times,
+# as a vscode-server-backed remote target (WSL/SSH/Dev Containers) — the two
+# aren't mutually exclusive, so both scopes are linked whenever relevant.
+
+# Local user scope — always linked. VS Code creates ~/.config/Code itself on
+# first local launch, but a fresh machine may not have run VS Code yet when
+# this script runs, so create it if needed.
+VSCODE_USER_DIR="$HOME/.config/Code/User"
+link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+
+# Machine-scoped remote settings (applies to any client, incl. browser,
+# connecting to this machine over vscode-server). Only linked if
+# ~/.vscode-server already exists — that dir is always created by the
+# server itself before this script runs, so its presence means this
+# machine has been used as a remote target; its absence means it hasn't,
+# and there's no point creating it speculatively. keybindings.json has no
+# such remote scope in VS Code, so it's not linked here; see README for
+# manual setup.
 if [ -d "$HOME/.vscode-server" ]; then
-  # Machine-scoped remote settings (applies to any client, incl. browser).
-  # keybindings.json has no such remote scope in VS Code, so it's not
-  # linked here; see README for manual setup.
   link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
-else
-  VSCODE_USER_DIR="$HOME/.config/Code/User"
-  link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
-  link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 fi
 
 # The `code` CLI only works once a client has actually connected — during
