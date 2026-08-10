@@ -63,6 +63,16 @@ Personal environment setup, managed so it can be reproduced automatically on
   with no synced profile, paste this file's contents into the Keyboard
   Shortcuts (JSON) editor (`Ctrl+Shift+P` → "Preferences: Open Keyboard
   Shortcuts (JSON)") to apply them manually.
+- `vscode/snippets/` — global user snippets, symlinked as a directory to
+  `~/.config/Code/User/snippets` (local user scope, same reasoning as
+  settings.json above). Each file uses VS Code's language-scoped naming
+  (`<languageId>.json`, e.g. `python.json`, `shellscript.json` — the
+  filename must match the language ID exactly or the snippets silently
+  won't trigger). Like `keybindings.json`, snippets have no remote/machine
+  scope in VS Code — they're classified as a UI Extension resource that
+  always runs on the local client, so a remote session uses the connecting
+  client's own local snippets automatically; nothing to link on the remote
+  host.
 - `vscode/extensions.txt` — extension IDs to install via
   `code --install-extension` (one per line). **Not installed automatically
   by Codespaces' dotfiles provisioning** — at that point in the container

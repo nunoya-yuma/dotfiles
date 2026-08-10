@@ -1,0 +1,9 @@
+{
+    "Print error": {
+        "prefix": "echo_error",
+        "body": [
+            "echo -e \"\\e[31m$1\\e[0m\"$2"
+        ],
+        "description": "Error Log output to console"
+    }
+}
