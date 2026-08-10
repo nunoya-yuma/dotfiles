@@ -1,0 +1,113 @@
+# Sourced by ~/.zshrc. Keeps aliases/behavior in sync with
+# bash/bash_aliases where zsh has an equivalent; the rest is zsh-specific
+# ergonomics carried over from this machine's prior ad-hoc ~/.zshrc.
+
+## History ##
+
+HISTSIZE=1000
+SAVEHIST=1000
+HISTFILE=~/.zsh_history
+setopt histignorealldups sharehistory
+
+## Keybindings ##
+
+# Use emacs keybindings even if EDITOR is set to vi
+bindkey -e
+
+# Up/down arrow: search history by what's already typed as a prefix
+# (bash/bash_aliases does the same with bind '"\e[A": history-search-backward')
+autoload -Uz up-line-or-beginning-search down-line-or-beginning-search
+zle -N up-line-or-beginning-search
+zle -N down-line-or-beginning-search
+bindkey "^[[A" up-line-or-beginning-search
+bindkey "^[[B" down-line-or-beginning-search
+
+# Ctrl+Left/Right and Home/End, as sent by VS Code's integrated terminal
+# (and most other modern terminal emulators)
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
+bindkey "^[[H" beginning-of-line
+bindkey "^[[F" end-of-line
+
+## Navigation ##
+
+# cd by typing a directory name alone
+setopt auto_cd
+setopt auto_pushd
+
+## Completion ##
+
+autoload -Uz compinit
+compinit
+
+setopt correct
+
+zstyle ':completion:*' auto-description 'specify: %d'
+zstyle ':completion:*' completer _expand _complete _correct _approximate
+zstyle ':completion:*' format 'Completing %d'
+zstyle ':completion:*' group-name ''
+zstyle ':completion:*' menu select
+zstyle ':completion:*' list-prompt %SAt %p: Hit TAB for more, or the character to insert%s
+zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=* l:|=*'
+zstyle ':completion:*' select-prompt %SScrolling active: current selection at %p%s
+zstyle ':completion:*' use-compctl false
+zstyle ':completion:*' verbose true
+
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#)*=0=01;31'
+zstyle ':completion:*:kill:*' command 'ps -u $USER -o pid,%cpu,tty,cputime,cmd'
+
+if command -v dircolors >/dev/null 2>&1; then
+  eval "$(dircolors -b)"
+  zstyle ':completion:*:default' list-colors "${(s.:.)LS_COLORS}"
+fi
+
+## Aliases ##
+
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+alias g='git'
+alias c='code -g'
+alias cw='cd ${workspaceFolder}'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias log='script /tmp/$(date +%m%d_%H%M_%S).log -c'
+
+## Editor ##
+
+# `code` CLI only exists when a VS Code client is actually connected.
+if command -v code >/dev/null 2>&1; then
+  export EDITOR='code --wait'
+  export VISUAL='code --wait'
+else
+  export EDITOR='vi'
+  export VISUAL='vi'
+fi
+
+## Prompt ##
+
+autoload -Uz vcs_info
+setopt prompt_subst
+precmd() { vcs_info }
+
+zstyle ':vcs_info:git:*' formats '[%b%u]'
+zstyle ':vcs_info:git:*' check-for-changes true
+zstyle ':vcs_info:git:*' unstagedstr '*'
+
+PROMPT='%F{cyan}%n%f:%F{yellow}%~%f %F{red}${vcs_info_msg_0_}%f
+%# '
+
+# Machine-specific overrides — never tracked by this repo.
+[ -f "$HOME/.zshrc.local" ] && . "$HOME/.zshrc.local"
+
+## Plugins ##
+# Not fetched or managed by this repo (see README) — clone them yourself
+# if you want them, e.g.:
+#   git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+#   git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+# zsh-syntax-highlighting in particular must be sourced last, after
+# everything else that defines widgets or keybindings.
+[ -f "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ] && \
+  source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
+[ -f "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ] && \
+  source "$HOME/.zsh/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"

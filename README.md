@@ -11,6 +11,27 @@ Personal environment setup, managed so it can be reproduced automatically on
   Sources `~/.bash_aliases.local` if present, for machine-specific
   additions that shouldn't be committed (created empty by `install.sh` on
   first run, never overwritten after).
+- `zsh/zshrc` — symlinked to `~/.zshrc`, but only if zsh is actually
+  installed on the machine (`install.sh` checks `command -v zsh`) — zsh
+  isn't installed on every machine this repo targets, and an inert
+  `~/.zshrc` on a machine that never runs zsh just adds clutter. Aliases,
+  `EDITOR`/`VISUAL`, history, completion, keybindings, and a
+  git-aware prompt (via `vcs_info`). Kept in sync with
+  `bash/bash_aliases` wherever zsh has an equivalent. Sources
+  `~/.zshrc.local` if present, for machine-specific additions that
+  shouldn't be committed (created empty by `install.sh` on first run,
+  never overwritten after — same pattern as `~/.bash_aliases.local`).
+  - `zsh-autosuggestions` and `zsh-syntax-highlighting` are **not**
+    fetched or managed by this repo (cloning third-party code
+    automatically isn't appropriate on every machine, e.g. ones
+    requiring license/approval review first) — `zsh/zshrc` only
+    `source`s them if already present at `~/.zsh/zsh-autosuggestions`
+    and `~/.zsh/zsh-syntax-highlighting`. Install them yourself if you
+    want them:
+    ```
+    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.zsh/zsh-autosuggestions
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
+    ```
 - `git/gitconfig` — symlinked to `~/.gitconfig`.
 - `git/ignore` — symlinked to `~/.config/git/ignore`, git's default global
   excludes file (read automatically, no `core.excludesFile` needed).
