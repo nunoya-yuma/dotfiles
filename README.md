@@ -14,31 +14,34 @@ Personal environment setup, managed so it can be reproduced automatically on
 - `git/gitconfig` — symlinked to `~/.gitconfig`.
 - `git/ignore` — symlinked to `~/.config/git/ignore`, git's default global
   excludes file (read automatically, no `core.excludesFile` needed).
-- `vscode/settings.json` — where it's linked depends on how `install.sh`
-  is running:
-  - **Remote** (WSL, SSH, Dev Containers, Codespaces — detected by a
-    pre-existing `~/.vscode-server`): symlinked to
-    `~/.vscode-server/data/Machine/settings.json`, VS Code's
-    *remote-scoped* settings file. It applies inside any
-    vscode-server-backed connection, independent of which local client
-    connects.
-  - **Local machine** (no `~/.vscode-server`, e.g. a fresh Linux/WSL
-    install with VS Code installed directly): symlinked to
+- `vscode/settings.json` — a single machine can be a local desktop and, at
+  other times, a vscode-server-backed remote target (WSL/SSH/Dev
+  Containers), so both scopes are linked whenever relevant, not
+  either/or:
+  - **Local user scope** (always linked): symlinked to
     `~/.config/Code/User/settings.json`, VS Code's normal user settings
     file. macOS/Windows local paths aren't handled yet.
-- `vscode/keybindings.json` — **local machine only.** Symlinked to
-  `~/.config/Code/User/keybindings.json` when running locally (see above).
-  In the remote case it's **reference only, not applied automatically** —
-  VS Code has no remote/machine scope for keybindings, they always come
-  from the connecting client's own local profile (e.g. the desktop app's
-  `%APPDATA%\Code\User\keybindings.json`), which `install.sh` running
-  inside the container/Codespace has no way to reach. When opening a
-  Codespace from a local VS Code Desktop install, your existing local
-  keybindings already apply automatically — nothing to do. When opening a
-  Codespace from a fresh browser tab with no synced profile, paste this
-  file's contents into the Keyboard Shortcuts (JSON) editor
-  (`Ctrl+Shift+P` → "Preferences: Open Keyboard Shortcuts (JSON)") to
-  apply them manually.
+  - **Remote machine scope** (linked only if `~/.vscode-server` already
+    exists): symlinked to `~/.vscode-server/data/Machine/settings.json`.
+    That dir is always created by the server itself before `install.sh`
+    runs, so its presence means this machine has been used as a remote
+    target at least once; its absence means `install.sh` skips this link
+    rather than creating the dir speculatively. Applies inside any
+    vscode-server-backed connection, independent of which local client
+    connects.
+- `vscode/keybindings.json` — always symlinked to
+  `~/.config/Code/User/keybindings.json` (local user scope, same
+  reasoning as settings.json above). VS Code has no remote/machine scope
+  for keybindings — when *this* machine is the one being connected *to*
+  remotely, keybindings always come from the connecting client's own
+  local profile instead (e.g. the desktop app's
+  `%APPDATA%\Code\User\keybindings.json`), so this file has no effect in
+  that direction. When opening a remote connection from a local VS Code
+  Desktop install, your existing local keybindings already apply
+  automatically — nothing to do. When connecting from a fresh browser tab
+  with no synced profile, paste this file's contents into the Keyboard
+  Shortcuts (JSON) editor (`Ctrl+Shift+P` → "Preferences: Open Keyboard
+  Shortcuts (JSON)") to apply them manually.
 - `vscode/extensions.txt` — extension IDs to install via
   `code --install-extension` (one per line). **Not installed automatically
   by Codespaces' dotfiles provisioning** — at that point in the container
@@ -57,8 +60,7 @@ Personal environment setup, managed so it can be reproduced automatically on
 Run `./install.sh` (idempotent — safe to re-run). It symlinks the files
 above into `$HOME` (backing up any pre-existing non-symlink file it would
 overwrite as `<file>.bak.<timestamp>`), then attempts to install the VS
-Code extensions (see caveat above). `vscode/keybindings.json` is skipped
-in the remote case — see above.
+Code extensions (see caveat above).
 
 ### Codespaces
 
