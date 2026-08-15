@@ -31,10 +31,10 @@
     "ALL"
   ],
   "ruff.lint.ignore": [
-    "D1", // undocumented
-    "D203",
-    "D213",
-    "COM812"
+    "COM812", // trailing comma conflicts with formatter
+    "CPY", // this project does not use copyright header comments
+    "D203", // 1 blank line required before class docstring (conflicts with D211)
+    "D213" // multi-line docstring summary should start at the second line (conflicts with D212)
   ],
   "search.exclude": {
     "**/.git": true,
