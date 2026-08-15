@@ -113,6 +113,17 @@ fi
 link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
 link "$DOTFILES_DIR/agents/skills" "$HOME/.claude/skills"
 
+# Codex CLI reads its own global personal instructions from
+# ~/.codex/AGENTS.md (distinct from any AGENTS.md nearer a project root) —
+# link the same file there too.
+link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.codex/AGENTS.md"
+
+# GitHub Copilot's global personal instructions aren't named AGENTS.md —
+# Copilot CLI reads ~/.copilot/copilot-instructions.md. (The VS Code
+# extension's equivalent is skipped: community reports say it doesn't
+# reliably pick up a global file yet.)
+link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.copilot/copilot-instructions.md"
+
 # The same SKILL.md files also work unmodified under ~/.agents/skills, the
 # universal directory read by Codex CLI, Cursor, Gemini CLI, and other
 # tools that implement the open Agent Skills standard (agentskills.io) —
