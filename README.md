@@ -90,8 +90,16 @@ Personal environment setup, managed so it can be reproduced automatically on
   project, distinct from a per-project instructions file). Named
   `AGENTS.md`, not `CLAUDE.md`: Claude Code doesn't read `AGENTS.md`
   natively, but it does follow a symlink named `CLAUDE.md` that points to
-  one, so it's symlinked to `~/.claude/CLAUDE.md` rather than forking the
-  content or using an `@AGENTS.md` import line.
+  one, so this one file is symlinked to several places instead of forking
+  the content or using an `@AGENTS.md` import line: `~/.claude/CLAUDE.md`
+  for Claude Code, `~/.codex/AGENTS.md` for Codex CLI's own global
+  personal-instructions path, and `~/.copilot/copilot-instructions.md`
+  for GitHub Copilot CLI (whose global personal instructions also aren't
+  named `AGENTS.md`; the VS Code extension's equivalent isn't linked —
+  community reports say it doesn't reliably pick up a global file yet).
+  Cursor and Gemini CLI read `AGENTS.md` / `GEMINI.md` only per-project
+  (repo root and below), not from a global, user-level path, so there's
+  nothing global to link for them yet.
 - `agents/skills/` — symlinked as a directory to `~/.claude/skills`
   (same reasoning as `vscode/snippets` above), Claude Code's global user
   skills. Each subdirectory follows the
