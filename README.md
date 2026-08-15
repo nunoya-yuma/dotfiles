@@ -35,6 +35,22 @@ Personal environment setup, managed so it can be reproduced automatically on
 - `git/gitconfig` — symlinked to `~/.gitconfig`.
 - `git/ignore` — symlinked to `~/.config/git/ignore`, git's default global
   excludes file (read automatically, no `core.excludesFile` needed).
+- `git/hooks/` — symlinked to `~/.githooks`, wired up via
+  `core.hooksPath` in `git/gitconfig` so it applies to every repo on the
+  machine.
+  - `pre-commit` — normalizes every staged text file to end with
+    exactly one trailing newline: adds one if missing, collapses
+    multiple trailing blank lines down to one. Only touches the very
+    end of the file, never interior lines, so it can't disturb
+    Markdown's trailing-two-spaces hard-break convention. Binary files
+    (detected the same way `git diff --numstat` does — presence of a
+    NUL byte) are left alone. Guards against files (often agent-edited)
+    committed with no final newline, or several. Parses `git diff -z`
+    (NUL-delimited) output rather than plain lines, so renamed files
+    and filenames with unusual characters (which git otherwise quotes
+    or collapses into an `old => new` field) are still handled
+    correctly.
+  - `pre-push` — chains only, no custom checks of its own yet.
 - `vscode/settings.json` — a single machine can be a local desktop and, at
   other times, a vscode-server-backed remote target (WSL/SSH/Dev
   Containers), so both scopes are linked whenever relevant, not

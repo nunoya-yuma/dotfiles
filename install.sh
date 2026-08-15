@@ -52,6 +52,7 @@ fi
 # git
 link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
+link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
 # vscode
 # A single machine can be used both as a local desktop and, at other times,
