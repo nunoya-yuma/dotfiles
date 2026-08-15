@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Installed globally via `core.hooksPath` (see git/gitconfig) purely to
+# chain to a repo-local pre-push hook — see _chain.sh for why that's
+# needed. No custom checks of our own here (yet).
+set -euo pipefail
+
+source "$(dirname "${BASH_SOURCE[0]}")/_chain.sh"
+chain_to_local_hook pre-push "$@"
