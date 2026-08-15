@@ -1,0 +1,44 @@
+#!/usr/bin/env bash
+# Installed globally via `core.hooksPath` (see git/gitconfig) so it
+# applies to every repo, catching files agents or editors leave with no
+# final newline, or several.
+set -euo pipefail
+
+# Make every staged text file end with exactly one trailing newline —
+# adds one if missing, collapses multiple trailing blank lines down to
+# one. Only touches the very end of the file, never interior lines, so
+# it can't disturb Markdown's trailing-two-spaces hard-break convention.
+# Binary files are left alone.
+while IFS= read -r -d '' entry; do
+  added="${entry%%$'\t'*}"
+  rest="${entry#*$'\t'}"
+  removed="${rest%%$'\t'*}"
+  path="${rest#*$'\t'}"
+
+  # -z reports a rename as "added\tremoved\t" (empty path) followed by
+  # two more NUL-terminated records: the old path, then the new path.
+  # Without -z, git quotes/escapes unusual filenames and collapses
+  # renames into a single "old => new" field — either of which breaks a
+  # plain tab-split parse of the path.
+  if [ -z "$path" ]; then
+    IFS= read -r -d '' _old_path
+    IFS= read -r -d '' path
+  fi
+
+  # git diff --numstat reports "-" for both counts on binary files.
+  [ "$added" = "-" ] && continue
+  [ -f "$path" ] || continue
+  [ -s "$path" ] || continue
+
+  content="$(cat -- "$path")"
+  tmp="$(mktemp "$(dirname -- "$path")/.pre-commit-newline.XXXXXX")"
+  printf '%s\n' "$content" >"$tmp"
+  if cmp -s -- "$path" "$tmp"; then
+    rm -f -- "$tmp"
+  else
+    chmod --reference="$path" "$tmp"
+    mv -- "$tmp" "$path"
+    git add -- "$path"
+    echo "pre-commit: normalized trailing newline(s) in $path"
+  fi
+done < <(git diff --cached --numstat -z --diff-filter=ACMR)

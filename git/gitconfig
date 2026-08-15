@@ -5,6 +5,7 @@
 	defaultBranch = main
 [core]
 	autocrlf = input
+	hooksPath = ~/.githooks
 [pull]
 	rebase = false
 [push]
