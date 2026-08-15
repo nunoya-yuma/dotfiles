@@ -1,8 +1,11 @@
 #!/usr/bin/env bash
 # Installed globally via `core.hooksPath` (see git/gitconfig) so it
-# applies to every repo, catching files agents or editors leave with no
-# final newline, or several.
+# applies to every repo on this machine. Two jobs: chain to any
+# repo-local pre-commit hook, then normalize trailing newlines.
 set -euo pipefail
+
+source "$(dirname "${BASH_SOURCE[0]}")/_chain.sh"
+chain_to_local_hook pre-commit "$@"
 
 # Make every staged text file end with exactly one trailing newline —
 # adds one if missing, collapses multiple trailing blank lines down to

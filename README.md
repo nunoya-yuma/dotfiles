@@ -38,8 +38,14 @@ Personal environment setup, managed so it can be reproduced automatically on
 - `git/hooks/` — symlinked to `~/.githooks`, wired up via
   `core.hooksPath` in `git/gitconfig` so it applies to every repo on the
   machine.
-  - `pre-commit` — normalizes every staged text file to end with
-    exactly one trailing newline: adds one if missing, collapses
+  - `_chain.sh` — sourced by every hook below. Runs the target repo's
+    own `.git/hooks/<name>` first, if one exists (e.g. installed by the
+    `pre-commit` framework or Husky), and aborts with its exit code on
+    failure. Needed because a global `core.hooksPath` makes git stop
+    looking at `.git/hooks/*` at all, which would otherwise silently
+    disable those tools.
+  - `pre-commit` — after chaining, normalizes every staged text file to
+    end with exactly one trailing newline: adds one if missing, collapses
     multiple trailing blank lines down to one. Only touches the very
     end of the file, never interior lines, so it can't disturb
     Markdown's trailing-two-spaces hard-break convention. Binary files
