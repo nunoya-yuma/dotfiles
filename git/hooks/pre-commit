@@ -1,17 +1,31 @@
 #!/usr/bin/env bash
 # Installed globally via `core.hooksPath` (see git/gitconfig) so it
-# applies to every repo on this machine. Two jobs: chain to any
-# repo-local pre-commit hook, then normalize trailing newlines.
+# applies to every repo on this machine. Three jobs: chain to any
+# repo-local pre-commit hook, block obvious secrets, then normalize
+# trailing newlines.
 set -euo pipefail
 
-source "$(dirname "${BASH_SOURCE[0]}")/_chain.sh"
+HOOK_DIR="$(dirname "${BASH_SOURCE[0]}")"
+source "$HOOK_DIR/_chain.sh"
+source "$HOOK_DIR/_secrets.sh"
+
 chain_to_local_hook pre-commit "$@"
+
+secrets_found=0
+check_secret_filenames || secrets_found=1
+check_secret_patterns || secrets_found=1
+if [ "$secrets_found" -eq 1 ]; then
+  echo "pre-commit: aborting — possible secret staged (see above)." \
+    "False positive? Adjust git/hooks/_secrets.sh, or bypass once with 'git commit --no-verify'." >&2
+  exit 1
+fi
 
 # Make every staged text file end with exactly one trailing newline —
 # adds one if missing, collapses multiple trailing blank lines down to
 # one. Only touches the very end of the file, never interior lines, so
 # it can't disturb Markdown's trailing-two-spaces hard-break convention.
-# Binary files are left alone.
+# Binary files are left alone. Catches files (often agent-edited) that
+# would otherwise get committed with no final newline, or several.
 while IFS= read -r -d '' entry; do
   added="${entry%%$'\t'*}"
   rest="${entry#*$'\t'}"
@@ -21,7 +35,7 @@ while IFS= read -r -d '' entry; do
   # -z reports a rename as "added\tremoved\t" (empty path) followed by
   # two more NUL-terminated records: the old path, then the new path.
   # Without -z, git quotes/escapes unusual filenames and collapses
-  # renames into a single "old => new" field — either of which breaks a
+  # renames into a single "old => new" field — either of which broke a
   # plain tab-split parse of the path.
   if [ -z "$path" ]; then
     IFS= read -r -d '' _old_path

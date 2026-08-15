@@ -44,18 +44,22 @@ Personal environment setup, managed so it can be reproduced automatically on
     failure. Needed because a global `core.hooksPath` makes git stop
     looking at `.git/hooks/*` at all, which would otherwise silently
     disable those tools.
-  - `pre-commit` — after chaining, normalizes every staged text file to
-    end with exactly one trailing newline: adds one if missing, collapses
-    multiple trailing blank lines down to one. Only touches the very
-    end of the file, never interior lines, so it can't disturb
-    Markdown's trailing-two-spaces hard-break convention. Binary files
-    (detected the same way `git diff --numstat` does — presence of a
-    NUL byte) are left alone. Guards against files (often agent-edited)
-    committed with no final newline, or several. Parses `git diff -z`
-    (NUL-delimited) output rather than plain lines, so renamed files
-    and filenames with unusual characters (which git otherwise quotes
-    or collapses into an `old => new` field) are still handled
-    correctly.
+  - `_secrets.sh` — sourced by `pre-commit`. Lightweight, dependency-free
+    secret scan: blocks staged files matching a secret-filename pattern
+    (`.env`, `id_rsa`, `credentials.json`, ...; `.env.example` and
+    friends are allowlisted) and staged content matching a handful of
+    high-confidence key formats (AWS, GitHub, Slack, Anthropic/OpenAI,
+    PEM private key headers). Not a replacement for gitleaks/detect-secrets
+    — just a cheap last line of defense. False positive? Adjust the
+    patterns, or bypass once with `git commit --no-verify`.
+  - `pre-commit` — after chaining and the secret scan, normalizes every
+    staged text file to end with exactly one trailing newline: adds one
+    if missing, collapses multiple trailing blank lines down to one.
+    Only touches the very end of the file, never interior lines, so it
+    can't disturb Markdown's trailing-two-spaces hard-break convention.
+    Binary files (detected the same way `git diff --numstat` does —
+    presence of a NUL byte) are left alone. Guards against files (often
+    agent-edited) committed with no final newline, or several.
   - `pre-push` — chains only, no custom checks of its own yet.
 - `vscode/settings.json` — a single machine can be a local desktop and, at
   other times, a vscode-server-backed remote target (WSL/SSH/Dev
