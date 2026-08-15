@@ -104,4 +104,25 @@ if command -v code >/dev/null 2>&1 && [ -f "$DOTFILES_DIR/vscode/extensions.txt"
   done < "$DOTFILES_DIR/vscode/extensions.txt"
 fi
 
+# agents
+# The canonical file is named AGENTS.md, not CLAUDE.md — Claude Code
+# doesn't read AGENTS.md natively, but it does follow a symlink named
+# CLAUDE.md to it, so linking here (rather than importing via an `@`
+# line) keeps a single tracked file that both Claude Code and any
+# AGENTS.md-native tool read unmodified.
+link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
+link "$DOTFILES_DIR/agents/skills" "$HOME/.claude/skills"
+
+# The same SKILL.md files also work unmodified under ~/.agents/skills, the
+# universal directory read by Codex CLI, Cursor, Gemini CLI, and other
+# tools that implement the open Agent Skills standard (agentskills.io) —
+# link it too so skills written once are usable everywhere, whether or not
+# those tools happen to be installed on this machine.
+link "$DOTFILES_DIR/agents/skills" "$HOME/.agents/skills"
+
+# GitHub Copilot reads personal (cross-project) skills from ~/.copilot/skills
+# as well as ~/.agents/skills — link its own path explicitly too, since not
+# every Copilot surface is guaranteed to check the universal one.
+link "$DOTFILES_DIR/agents/skills" "$HOME/.copilot/skills"
+
 echo "dotfiles install complete."

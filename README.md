@@ -86,6 +86,24 @@ Personal environment setup, managed so it can be reproduced automatically on
   installs automatically because the connecting client (not this script)
   is what triggers it.
 
+- `agents/AGENTS.md` — global user instructions (applies across every
+  project, distinct from a per-project instructions file). Named
+  `AGENTS.md`, not `CLAUDE.md`: Claude Code doesn't read `AGENTS.md`
+  natively, but it does follow a symlink named `CLAUDE.md` that points to
+  one, so it's symlinked to `~/.claude/CLAUDE.md` rather than forking the
+  content or using an `@AGENTS.md` import line.
+- `agents/skills/` — symlinked as a directory to `~/.claude/skills`
+  (same reasoning as `vscode/snippets` above), Claude Code's global user
+  skills. Each subdirectory follows the
+  [Agent Skills](https://agentskills.io) open standard (a `SKILL.md` with
+  YAML frontmatter), which is also read by Codex CLI, Cursor, Gemini CLI,
+  GitHub Copilot, and other compatible tools — so `install.sh` links the
+  same directory twice more: to `~/.agents/skills`, the universal path
+  most of those tools look for, and to `~/.copilot/skills`, GitHub
+  Copilot's own explicit path (not every Copilot surface is guaranteed to
+  check the universal one) — making every skill here usable outside
+  Claude Code too without any format changes.
+
 ## How it applies
 
 Run `./install.sh` (idempotent — safe to re-run). It symlinks the files
