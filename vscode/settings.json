@@ -1,7 +1,6 @@
 {
   "cmake.configureOnEdit": false,
   "cmake.configureOnOpen": false,
-  "chat.agent.enabled": true,
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.acceptSuggestionOnEnter": "off",
   "editor.fontFamily": "Consolas, Meiryo UI, 'Courier New', monospace",
@@ -56,7 +55,6 @@
     "workspaceFolder": "${workspaceFolder}"
   },
   "terminal.integrated.scrollback": 5000,
-  "terminal.integrated.suggest.enabled": true,
   "workbench.colorCustomizations": {
     // Color of Selected line
     "editor.lineHighlightBackground": "#303030"
