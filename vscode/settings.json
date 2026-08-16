@@ -9,6 +9,13 @@
   "editor.formatOnSave": true,
   "editor.renderWhitespace": "all",
   "editor.snippetSuggestions": "top",
+  // Markdown disables quick suggestions in plain text by default, which
+  // also suppresses snippet auto-popup while typing prose
+  "[markdown]": {
+    "editor.quickSuggestions": {
+      "other": true
+    }
+  },
   // When a file is selected,
   // the file tree does not move the focus location
   "explorer.autoReveal": false,
@@ -60,6 +67,5 @@
   // Open tabs on multiple lines
   "workbench.editor.wrapTabs": true,
   "workbench.startupEditor": "none",
-  "window.zoomLevel": 1.8,
-  // --- machine-local settings below — never commit these ---
+  "window.zoomLevel": 1.8
 }
