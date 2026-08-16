@@ -61,25 +61,17 @@ Personal environment setup, managed so it can be reproduced automatically on
     presence of a NUL byte) are left alone. Guards against files (often
     agent-edited) committed with no final newline, or several.
   - `pre-push` — chains only, no custom checks of its own yet.
-- `vscode/settings.json` — VS Code's local user scope: genuinely common
-  settings that should apply everywhere, independent of which machine is
-  being connected to (or whether one is at all). `install.sh` symlinks it
-  to `~/.config/Code/User/settings.json` on a genuine Linux desktop, and
-  to `%APPDATA%\Code\User\settings.json` (resolved via `cygpath`) when run
-  from Git Bash on native Windows instead — see "How it applies" below.
-  macOS local paths aren't handled yet.
-  - VS Code's other relevant scope, "Remote [WSL/SSH/...]" **machine
-    scope**, is deliberately **not** tracked here, even though it's
-    layered on top of local user scope while connected (so it could, in
-    principle, hold shared overrides). VS Code creates and persists that
-    file itself the moment any setting is set through the Remote Settings
-    UI — it already existed with real content on this machine before this
-    repo ever touched it. Its entire purpose is to hold overrides specific
-    to *one* box (e.g. a terminal profile default that only makes sense on
-    a machine with that shell installed), which by definition isn't
-    shared, tracked content — `install.sh` doesn't touch
-    `~/.vscode-server/data/Machine/settings.json` at all; set it directly
-    through VS Code's own Remote Settings UI if you want one.
+- `vscode/settings.json` — VS Code's local user scope only: genuinely
+  common settings that should apply everywhere, independent of which
+  machine is being connected to (or whether one is at all). `install.sh`
+  symlinks it to `~/.config/Code/User/settings.json` on a genuine Linux
+  desktop, and to `%APPDATA%\Code\User\settings.json` (resolved via
+  `cygpath`) when run from Git Bash on native Windows instead — see "How
+  it applies" below. macOS local paths aren't handled yet. VS Code's other
+  relevant scope, "Remote [WSL/SSH/...]" machine scope, is deliberately
+  **not** tracked or touched here — see
+  [`docs/decisions/0001-vscode-settings-scope-tracking.md`](docs/decisions/0001-vscode-settings-scope-tracking.md)
+  for why, and what else was tried first.
 - `vscode/keybindings.json` — symlinked into every local user scope above
   (Linux or Windows, whichever `install.sh` detects). VS Code has no
   remote/machine scope for keybindings — when *this* machine is the one
@@ -151,17 +143,13 @@ Personal environment setup, managed so it can be reproduced automatically on
 
 Run `./install.sh` (idempotent — safe to re-run) — the one entry point for
 every machine this repo targets: a genuine Linux desktop, a WSL distro, an
-SSH target, a Dev Container, Codespaces, or native Windows via Git Bash.
-It detects native Windows (Git Bash/MSYS/Cygwin, via `uname -s`) first and,
-if so, only links the VS Code files into `%APPDATA%\Code\User` before
-exiting — a Windows-only machine (e.g. one used purely as an SSH client
-into a separate Linux box) has no `$HOME` dev environment here worth
-linking, and creating a symlink there needs either an elevated
-(Administrator) shell or Developer Mode enabled (Settings → Update &
-Security → For developers). This applies whether or not that Windows
-machine also uses WSL — the WSL side, run separately inside the distro,
-only ever reaches its own Linux `$HOME`, never the Windows Desktop
-client's local scope.
+SSH target, a Dev Container, Codespaces, or native Windows via Git Bash. On
+native Windows it only links the VS Code files into `%APPDATA%\Code\User`
+before exiting, requiring either an elevated (Administrator) shell or
+Developer Mode enabled (Settings → Update & Security → For developers) to
+create the symlinks; see
+[`docs/decisions/0001-vscode-settings-scope-tracking.md`](docs/decisions/0001-vscode-settings-scope-tracking.md)
+for why, including why this applies even on a machine that also uses WSL.
 
 On every other machine, it symlinks the files above into `$HOME` (backing
 up any pre-existing non-symlink file it would overwrite as
@@ -200,3 +188,10 @@ that trade off differently in an ephemeral container:
 Nothing sensitive (API keys, tokens, SSH private keys) belongs in this repo —
 it's meant to be safe to keep public. The committed git identity here is
 just a name/email, which is already public on every commit anyway.
+
+## Design decisions
+
+`docs/decisions/` holds lightweight ADRs (Architecture Decision Records)
+for choices that took real back-and-forth to land on — what was tried
+first, why it was rejected, and what this repo does instead. Worth
+checking before re-litigating something that looks odd at first glance.
