@@ -73,6 +73,12 @@ alias ..='cd ..'
 alias ...='cd ../..'
 alias log='script /tmp/$(date +%m%d_%H%M_%S).log -c'
 
+## PATH ##
+
+# User-local binaries (e.g. Claude Code's native installer) live here; not
+# guaranteed to already be on PATH in every shell.
+export PATH="$HOME/.local/bin:$PATH"
+
 ## Editor ##
 
 # `code` CLI only exists when a VS Code client is actually connected.

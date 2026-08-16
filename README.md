@@ -137,6 +137,13 @@ Personal environment setup, managed so it can be reproduced automatically on
   Copilot's own explicit path (not every Copilot surface is guaranteed to
   check the universal one) — making every skill here usable outside
   Claude Code too without any format changes.
+- Claude Code CLI itself — installed via the official native installer
+  (`curl -fsSL https://claude.ai/install.sh | bash`), but only when
+  `install.sh` detects it's running inside a Codespace (`$CODESPACES=true`).
+  Not installed on other machines by this script — see [Codespaces](#codespaces)
+  below for why, and for how to authenticate it without an interactive
+  browser login. The installer puts the binary in `~/.local/bin`, so
+  `bash/bash_aliases` and `zsh/zshrc` both add that to `PATH`.
 
 ## How it applies
 
@@ -152,6 +159,25 @@ account into the container and runs `install.sh` (or `install`,
 `bootstrap.sh`, etc.) if present — no manual step needed once this repo is
 registered as your dotfiles repo in
 [GitHub Settings → Codespaces](https://github.com/settings/codespaces).
+
+This is also what triggers the Codespaces-only install of the Claude Code
+CLI (see above). It still needs to authenticate, and the two ways to do
+that trade off differently in an ephemeral container:
+
+- **API key (no interactive step)** — register an `ANTHROPIC_API_KEY`
+  [account-specific development environment
+  secret](https://docs.github.com/en/codespaces/managing-your-codespaces/managing-your-account-specific-secrets-for-github-codespaces)
+  scoped to this repo (or "All repositories") at
+  [github.com/settings/codespaces](https://github.com/settings/codespaces).
+  GitHub injects it as an env var into every Codespace automatically; when
+  Claude Code sees it set, it skips the browser OAuth flow entirely. Billing
+  is pay-per-token via the Anthropic Console, separate from a Claude
+  subscription.
+- **Subscription login (interactive, one-time per container)** — leave
+  `ANTHROPIC_API_KEY` unset and run `claude` once after connecting to log in
+  via a Pro/Max/Team/Enterprise account through the browser-based flow.
+  Credentials persist on the container's disk across stop/restart, but a
+  rebuilt or freshly-created Codespace needs this repeated.
 
 ## Secrets
 
