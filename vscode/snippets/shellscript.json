@@ -1,9 +1,69 @@
 {
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for ${1:item} in ${2:list}; do",
+            "\t$3",
+            "done"
+        ],
+        "description": "For loop"
+    },
+    "function": {
+        "prefix": "function",
+        "body": [
+            "${1:name}() {",
+            "\t$2",
+            "}"
+        ],
+        "description": "Function definition"
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if [[ ${1:condition} ]]; then",
+            "\t$2",
+            "fi"
+        ],
+        "description": "If statement"
+    },
+    "if/else": {
+        "prefix": "if",
+        "body": [
+            "if [[ ${1:condition} ]]; then",
+            "\t$2",
+            "else",
+            "\t$3",
+            "fi"
+        ],
+        "description": "If/else statement"
+    },
     "Print error": {
-        "prefix": "echo_error",
+        "prefix": "echo",
         "body": [
             "echo -e \"\\e[31m$1\\e[0m\"$2"
         ],
         "description": "Error Log output to console"
+    },
+    "Print info": {
+        "prefix": "echo",
+        "body": [
+            "echo -e \"\\e[32m$1\\e[0m\"$2"
+        ],
+        "description": "Info log output to console"
+    },
+    "Print warning": {
+        "prefix": "echo",
+        "body": [
+            "echo -e \"\\e[33m$1\\e[0m\"$2"
+        ],
+        "description": "Warning log output to console"
+    },
+    "shebang": {
+        "prefix": "shebang",
+        "body": [
+            "#!/usr/bin/env bash",
+            "set -euo pipefail"
+        ],
+        "description": "Bash shebang with strict mode"
     }
 }

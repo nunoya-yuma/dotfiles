@@ -1,4 +1,27 @@
 {
+    "derive": {
+        "prefix": "derive",
+        "body": [
+            "#[derive($1)]"
+        ],
+        "description": "derive macro attribute"
+    },
+    "enum: Create enum": {
+        "prefix": "enum",
+        "body": [
+            "enum ${1:Name} {",
+            "\t${2:Variant},",
+            "}"
+        ],
+        "description": "Create enum"
+    },
+    "eprintln!: Print to stderr": {
+        "prefix": "eprintln!",
+        "body": [
+            "eprintln!(\"{$1}\"$2);"
+        ],
+        "description": "Log output to stderr"
+    },
     "fn: impl function": {
         "prefix": "fn",
         "body": [
@@ -9,7 +32,7 @@
         "description": "impl function"
     },
     "fn: impl function(pub)": {
-        "prefix": "fn",
+        "prefix": "pub fn",
         "body": [
             "pub fn $1 (&self$2) $3 {",
             "\t$4",
@@ -27,7 +50,7 @@
         "description": "Normal function"
     },
     "fn: Normal function(pub)": {
-        "prefix": "fn",
+        "prefix": "pub fn",
         "body": [
             "pub fn $1 ($2) $3 {",
             "\t$4",
@@ -44,6 +67,28 @@
         ],
         "description": "Normal function"
     },
+    "if: if and else": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$2",
+            "}else{",
+            "\t$3",
+            "}"
+        ],
+        "description": "if and else"
+    },
+    "if: if and else if": {
+        "prefix": "if",
+        "body": [
+            "if ${1:condition} {",
+            "\t$2",
+            "}else if ${3:condition}{",
+            "\t$4",
+            "}"
+        ],
+        "description": "if and else if"
+    },
     "if: Normal if": {
         "prefix": "if",
         "body": [
@@ -52,28 +97,6 @@
             "}"
         ],
         "description": "Normal if"
-    },
-    "if: if and else": {
-        "prefix": "if else",
-        "body": [
-            "if ${1:condition} {",
-            "\t$2",
-            "}else{",
-            "\t$3",
-            "}",
-        ],
-        "description": "if and else"
-    },
-    "if: if and else if": {
-        "prefix": "if else if",
-        "body": [
-            "if ${1:condition} {",
-            "\t$2",
-            "}else if ${3:condition}{",
-            "\t$4",
-            "}",
-        ],
-        "description": "if and else if"
     },
     "impl": {
         "prefix": "impl",
@@ -85,6 +108,17 @@
             "}"
         ],
         "description": "impl"
+    },
+    "impl: Default": {
+        "prefix": "impl",
+        "body": [
+            "impl Default for ${1:Type} {",
+            "\tfn default() -> Self {",
+            "\t\t$2",
+            "\t}",
+            "}"
+        ],
+        "description": "impl: Default for"
     },
     "impl: for trait": {
         "prefix": "impl",
@@ -128,7 +162,7 @@
     "println!: Print to console": {
         "prefix": "println!",
         "body": [
-            "println!(\"{$1}\"$2);",
+            "println!(\"{$1}\"$2);"
         ],
         "description": "Log output to console"
     },
@@ -141,6 +175,16 @@
         ],
         "description": "Create struct"
     },
+    "test: Test function": {
+        "prefix": "test",
+        "body": [
+            "#[test]",
+            "fn ${1:test_name}() {",
+            "\t$2",
+            "}"
+        ],
+        "description": "Test function"
+    },
     "trait: Create trait": {
         "prefix": "trait",
         "body": [
@@ -149,5 +193,5 @@
             "}"
         ],
         "description": "Create trait"
-    },
+    }
 }

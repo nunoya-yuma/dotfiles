@@ -1,0 +1,47 @@
+{
+    "docker-compose service": {
+        "prefix": "service",
+        "body": [
+            "${1:service_name}:",
+            "  image: ${2:image}",
+            "  ports:",
+            "    - \"${3:host}:${4:container}\"",
+            "  volumes:",
+            "    - ${5:./host}:${6:/container}"
+        ],
+        "description": "docker-compose service block"
+    },
+    "env": {
+        "prefix": "env",
+        "body": [
+            "env:",
+            "  ${1:KEY}: ${2:value}"
+        ],
+        "description": "Environment variable block"
+    },
+    "GitHub Actions workflow": {
+        "prefix": "workflow",
+        "body": [
+            "name: ${1:Workflow Name}",
+            "",
+            "on:",
+            "  ${2:push}:",
+            "    branches: [${3:main}]",
+            "",
+            "jobs:",
+            "  ${4:build}:",
+            "    runs-on: ${5:ubuntu-latest}",
+            "    steps:",
+            "      - uses: actions/checkout@v4"
+        ],
+        "description": "GitHub Actions workflow skeleton"
+    },
+    "step": {
+        "prefix": "step",
+        "body": [
+            "- name: $1",
+            "  run: $2"
+        ],
+        "description": "GitHub Actions step"
+    }
+}

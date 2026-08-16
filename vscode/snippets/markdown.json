@@ -1,0 +1,62 @@
+{
+    "checkbox": {
+        "prefix": "todo",
+        "body": [
+            "- [ ] $1"
+        ],
+        "description": "Task list checkbox"
+    },
+    "code block": {
+        "prefix": "code",
+        "body": [
+            "```$1",
+            "$2",
+            "```"
+        ],
+        "description": "Fenced code block"
+    },
+    "details": {
+        "prefix": "details",
+        "body": [
+            "<details>",
+            "<summary>$1</summary>",
+            "",
+            "$2",
+            "",
+            "</details>"
+        ],
+        "description": "Collapsible details block"
+    },
+    "frontmatter": {
+        "prefix": "frontmatter",
+        "body": [
+            "---",
+            "$1",
+            "---"
+        ],
+        "description": "YAML frontmatter block"
+    },
+    "image": {
+        "prefix": "image",
+        "body": [
+            "![$1]($2)"
+        ],
+        "description": "Markdown image"
+    },
+    "link": {
+        "prefix": "link",
+        "body": [
+            "[$1]($2)"
+        ],
+        "description": "Markdown link"
+    },
+    "table": {
+        "prefix": "table",
+        "body": [
+            "| ${1:Header 1} | ${2:Header 2} |",
+            "| --- | --- |",
+            "| $3 | $4 |"
+        ],
+        "description": "Two-column table"
+    }
+}

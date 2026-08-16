@@ -1,0 +1,151 @@
+{
+    "arrow function": {
+        "prefix": "const",
+        "body": [
+            "const ${1:name} = (${2:params}): ${3:void} => {",
+            "\t$4",
+            "};"
+        ],
+        "description": "Arrow function"
+    },
+    "async function": {
+        "prefix": "async function",
+        "body": [
+            "async function ${1:name}(${2:params}): Promise<${3:void}> {",
+            "\t$4",
+            "}"
+        ],
+        "description": "Async function declaration"
+    },
+    "class": {
+        "prefix": "class",
+        "body": [
+            "class ${1:Name} {",
+            "\tconstructor(${2:params}) {",
+            "\t\t$3",
+            "\t}",
+            "}"
+        ],
+        "description": "Class definition"
+    },
+    "console.error": {
+        "prefix": "error",
+        "body": [
+            "console.error($1);"
+        ],
+        "description": "Error log output to console"
+    },
+    "console.log": {
+        "prefix": "log",
+        "body": [
+            "console.log($1);"
+        ],
+        "description": "Log output to console"
+    },
+    "describe": {
+        "prefix": "describe",
+        "body": [
+            "describe('${1:description}', () => {",
+            "\t$2",
+            "});"
+        ],
+        "description": "Test suite block"
+    },
+    "export default": {
+        "prefix": "export",
+        "body": [
+            "export default $1;"
+        ],
+        "description": "Default export"
+    },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for (let ${1:i} = 0; $1 < ${2:n}; $1++) {",
+            "\t$3",
+            "}"
+        ],
+        "description": "For loop"
+    },
+    "for/of": {
+        "prefix": "for",
+        "body": [
+            "for (const ${1:item} of ${2:iterable}) {",
+            "\t$3",
+            "}"
+        ],
+        "description": "For...of loop"
+    },
+    "function": {
+        "prefix": "function",
+        "body": [
+            "function ${1:name}(${2:params}): ${3:void} {",
+            "\t$4",
+            "}"
+        ],
+        "description": "Function declaration"
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$2",
+            "}"
+        ],
+        "description": "If statement"
+    },
+    "if/else": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$2",
+            "} else {",
+            "\t$3",
+            "}"
+        ],
+        "description": "If/else statement"
+    },
+    "import": {
+        "prefix": "import",
+        "body": [
+            "import { $1 } from '${2:module}';"
+        ],
+        "description": "Named import"
+    },
+    "interface": {
+        "prefix": "interface",
+        "body": [
+            "interface ${1:Name} {",
+            "\t${2:prop}: ${3:type};",
+            "}"
+        ],
+        "description": "Interface definition"
+    },
+    "test": {
+        "prefix": "test",
+        "body": [
+            "test('${1:description}', () => {",
+            "\t$2",
+            "});"
+        ],
+        "description": "Test case"
+    },
+    "try/catch": {
+        "prefix": "try",
+        "body": [
+            "try {",
+            "\t$1",
+            "} catch (${2:error}) {",
+            "\t$3",
+            "}"
+        ],
+        "description": "Try/catch statement"
+    },
+    "type alias": {
+        "prefix": "type",
+        "body": [
+            "type ${1:Name} = ${2:type};"
+        ],
+        "description": "Type alias"
+    }
+}
