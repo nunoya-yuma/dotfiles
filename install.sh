@@ -22,14 +22,11 @@ link() {
   echo "Linked $dst -> $src"
 }
 
-# Native Windows (Git Bash/MSYS/Cygwin) has no real $HOME dev environment
-# to speak of here — no bash_aliases, no zsh, no git hooks worth linking,
-# no Claude/Codex/Copilot agent config. All it needs from this repo is VS
-# Code Desktop's own local user scope (%APPDATA%\Code\User), which the
-# rest of this script can't reach anyway (it targets a genuine Linux
-# $HOME — WSL, SSH targets, Dev Containers, Codespaces; see the vscode
-# section below). Branch here and exit rather than running the rest of
-# this script against a Windows profile it was never designed for.
+# Native Windows (Git Bash/MSYS/Cygwin) only needs VS Code Desktop's own
+# local user scope (%APPDATA%\Code\User) from this repo — see
+# docs/decisions/0001-vscode-settings-scope-tracking.md. Branch here and
+# exit rather than running the rest of this script, which assumes a
+# genuine Linux $HOME.
 case "$(uname -s)" in
   MINGW* | MSYS* | CYGWIN*)
     if [ -z "${APPDATA:-}" ]; then
@@ -92,12 +89,9 @@ link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
 # vscode
-# Only VS Code's local user scope (settings.json/keybindings.json/snippets)
-# is tracked here. Its "Remote [WSL/SSH/...]" machine scope deliberately
-# isn't: VS Code creates and persists that file itself the first time any
-# setting is set through the Remote Settings UI, and the whole point of
-# that scope is to hold overrides specific to *this* box — content that by
-# definition doesn't belong in a shared repo. See README.
+# Only the local user scope is tracked here — never the "Remote
+# [WSL/SSH/...]" machine scope. See
+# docs/decisions/0001-vscode-settings-scope-tracking.md for why.
 
 # Local user scope — always linked. VS Code creates ~/.config/Code itself on
 # first local launch, but a fresh machine may not have run VS Code yet when
