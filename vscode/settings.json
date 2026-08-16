@@ -32,7 +32,6 @@
   "git.confirmSync": false,
   "git.detectSubmodulesLimit": 100,
   "git.suggestSmartCommit": false,
-  "github.copilot.nextEditSuggestions.enabled": false,
   "gitlens.views.stashes.files.layout": "list",
   "ruff.lint.select": [
     "ALL"
