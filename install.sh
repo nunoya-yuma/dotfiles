@@ -89,10 +89,6 @@ link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
 # vscode
-# Only the local user scope is tracked here — never the "Remote
-# [WSL/SSH/...]" machine scope. See
-# docs/decisions/0001-vscode-settings-scope-tracking.md for why.
-
 # Local user scope — always linked. VS Code creates ~/.config/Code itself on
 # first local launch, but a fresh machine may not have run VS Code yet when
 # this script runs, so create it if needed.
@@ -100,13 +96,6 @@ VSCODE_USER_DIR="$HOME/.config/Code/User"
 link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
 link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"
-
-# keybindings.json and snippets have no remote/machine scope in VS Code —
-# the docs classify them as UI Extension resources, always run on the
-# local client, so a remote session uses the connecting client's own local
-# versions rather than anything on the remote host. No remote link needed
-# for either; see README for manual setup on a client that hasn't run
-# this script itself (as either the Linux or the Windows branch above).
 
 # The `code` CLI only works once a client has actually connected — during
 # Codespaces' automatic dotfiles provisioning (this script), no client is
