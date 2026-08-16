@@ -61,44 +61,46 @@ Personal environment setup, managed so it can be reproduced automatically on
     presence of a NUL byte) are left alone. Guards against files (often
     agent-edited) committed with no final newline, or several.
   - `pre-push` — chains only, no custom checks of its own yet.
-- `vscode/settings.json` — a single machine can be a local desktop and, at
-  other times, a vscode-server-backed remote target (WSL/SSH/Dev
-  Containers), so both scopes are linked whenever relevant, not
-  either/or:
-  - **Local user scope** (always linked): symlinked to
-    `~/.config/Code/User/settings.json`, VS Code's normal user settings
-    file. macOS/Windows local paths aren't handled yet.
-  - **Remote machine scope** (linked only if `~/.vscode-server` already
-    exists): symlinked to `~/.vscode-server/data/Machine/settings.json`.
-    That dir is always created by the server itself before `install.sh`
-    runs, so its presence means this machine has been used as a remote
-    target at least once; its absence means `install.sh` skips this link
-    rather than creating the dir speculatively. Applies inside any
-    vscode-server-backed connection, independent of which local client
-    connects.
-- `vscode/keybindings.json` — always symlinked to
-  `~/.config/Code/User/keybindings.json` (local user scope, same
-  reasoning as settings.json above). VS Code has no remote/machine scope
-  for keybindings — when *this* machine is the one being connected *to*
-  remotely, keybindings always come from the connecting client's own
-  local profile instead (e.g. the desktop app's
-  `%APPDATA%\Code\User\keybindings.json`), so this file has no effect in
-  that direction. When opening a remote connection from a local VS Code
-  Desktop install, your existing local keybindings already apply
-  automatically — nothing to do. When connecting from a fresh browser tab
-  with no synced profile, paste this file's contents into the Keyboard
-  Shortcuts (JSON) editor (`Ctrl+Shift+P` → "Preferences: Open Keyboard
-  Shortcuts (JSON)") to apply them manually.
-- `vscode/snippets/` — global user snippets, symlinked as a directory to
-  `~/.config/Code/User/snippets` (local user scope, same reasoning as
-  settings.json above). Each file uses VS Code's language-scoped naming
-  (`<languageId>.json`, e.g. `python.json`, `shellscript.json` — the
-  filename must match the language ID exactly or the snippets silently
-  won't trigger). Like `keybindings.json`, snippets have no remote/machine
-  scope in VS Code — they're classified as a UI Extension resource that
-  always runs on the local client, so a remote session uses the connecting
-  client's own local snippets automatically; nothing to link on the remote
-  host.
+- `vscode/settings.json` — VS Code's local user scope: genuinely common
+  settings that should apply everywhere, independent of which machine is
+  being connected to (or whether one is at all). `install.sh` symlinks it
+  to `~/.config/Code/User/settings.json` on a genuine Linux desktop, and
+  to `%APPDATA%\Code\User\settings.json` (resolved via `cygpath`) when run
+  from Git Bash on native Windows instead — see "How it applies" below.
+  macOS local paths aren't handled yet.
+  - VS Code's other relevant scope, "Remote [WSL/SSH/...]" **machine
+    scope**, is deliberately **not** tracked here, even though it's
+    layered on top of local user scope while connected (so it could, in
+    principle, hold shared overrides). VS Code creates and persists that
+    file itself the moment any setting is set through the Remote Settings
+    UI — it already existed with real content on this machine before this
+    repo ever touched it. Its entire purpose is to hold overrides specific
+    to *one* box (e.g. a terminal profile default that only makes sense on
+    a machine with that shell installed), which by definition isn't
+    shared, tracked content — `install.sh` doesn't touch
+    `~/.vscode-server/data/Machine/settings.json` at all; set it directly
+    through VS Code's own Remote Settings UI if you want one.
+- `vscode/keybindings.json` — symlinked into every local user scope above
+  (Linux or Windows, whichever `install.sh` detects). VS Code has no
+  remote/machine scope for keybindings — when *this* machine is the one
+  being connected *to* remotely, keybindings always come from the
+  connecting client's own local profile instead, so this file has no
+  effect in that direction. If the connecting client is a Windows machine
+  that has run `install.sh` itself, that's already covered. When
+  connecting from a client that hasn't (an SSH target, or a fresh browser
+  tab with no synced profile), paste this file's contents into the
+  Keyboard Shortcuts (JSON) editor (`Ctrl+Shift+P` → "Preferences: Open
+  Keyboard Shortcuts (JSON)") to apply them manually.
+- `vscode/snippets/` — global user snippets, symlinked as a directory into
+  every local user scope above, same reasoning as `keybindings.json`.
+  Each file uses VS Code's language-scoped naming (`<languageId>.json`,
+  e.g. `python.json`, `shellscript.json` — the filename must match the
+  language ID exactly or the snippets silently won't trigger). Like
+  `keybindings.json`, snippets have no remote/machine scope in VS Code —
+  they're classified as a UI Extension resource that always runs on the
+  local client, so a remote session uses the connecting client's own
+  local snippets automatically; covered already if that client has run
+  `install.sh` itself, otherwise nothing to link on the remote host.
 - `vscode/extensions.txt` — extension IDs to install via
   `code --install-extension` (one per line). **Not installed automatically
   by Codespaces' dotfiles provisioning** — at that point in the container
@@ -147,10 +149,24 @@ Personal environment setup, managed so it can be reproduced automatically on
 
 ## How it applies
 
-Run `./install.sh` (idempotent — safe to re-run). It symlinks the files
-above into `$HOME` (backing up any pre-existing non-symlink file it would
-overwrite as `<file>.bak.<timestamp>`), then attempts to install the VS
-Code extensions (see caveat above).
+Run `./install.sh` (idempotent — safe to re-run) — the one entry point for
+every machine this repo targets: a genuine Linux desktop, a WSL distro, an
+SSH target, a Dev Container, Codespaces, or native Windows via Git Bash.
+It detects native Windows (Git Bash/MSYS/Cygwin, via `uname -s`) first and,
+if so, only links the VS Code files into `%APPDATA%\Code\User` before
+exiting — a Windows-only machine (e.g. one used purely as an SSH client
+into a separate Linux box) has no `$HOME` dev environment here worth
+linking, and creating a symlink there needs either an elevated
+(Administrator) shell or Developer Mode enabled (Settings → Update &
+Security → For developers). This applies whether or not that Windows
+machine also uses WSL — the WSL side, run separately inside the distro,
+only ever reaches its own Linux `$HOME`, never the Windows Desktop
+client's local scope.
+
+On every other machine, it symlinks the files above into `$HOME` (backing
+up any pre-existing non-symlink file it would overwrite as
+`<file>.bak.<timestamp>`), then attempts to install the VS Code extensions
+(see caveat above).
 
 ### Codespaces
 
