@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Entry point auto-detected and run by GitHub Codespaces when this repo
-# is registered as the account's dotfiles repository.
+# Entry point auto-detected and run by GitHub Codespaces when this repo is
+# registered as the account's dotfiles repository. Also the one entry
+# point for every other machine this repo targets, native Windows included
+# (run from Git Bash there) — see the platform branch below.
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -12,9 +14,44 @@ link() {
     mv "$dst" "$dst.bak.$(date +%Y%m%d%H%M%S)"
     echo "Backed up existing $dst"
   fi
-  ln -sfn "$src" "$dst"
+  if ! ln -sfn "$src" "$dst" 2>/dev/null; then
+    echo "Failed to create a symlink at $dst." >&2
+    echo "On native Windows, this requires either an elevated (Administrator) shell or Developer Mode enabled (Settings > Update & Security > For developers)." >&2
+    exit 1
+  fi
   echo "Linked $dst -> $src"
 }
+
+# Native Windows (Git Bash/MSYS/Cygwin) has no real $HOME dev environment
+# to speak of here — no bash_aliases, no zsh, no git hooks worth linking,
+# no Claude/Codex/Copilot agent config. All it needs from this repo is VS
+# Code Desktop's own local user scope (%APPDATA%\Code\User), which the
+# rest of this script can't reach anyway (it targets a genuine Linux
+# $HOME — WSL, SSH targets, Dev Containers, Codespaces; see the vscode
+# section below). Branch here and exit rather than running the rest of
+# this script against a Windows profile it was never designed for.
+case "$(uname -s)" in
+  MINGW* | MSYS* | CYGWIN*)
+    if [ -z "${APPDATA:-}" ]; then
+      echo "APPDATA is not set — run this from Git Bash on native Windows, not WSL or Linux." >&2
+      exit 1
+    fi
+    # APPDATA is a native Windows path (e.g. C:\Users\me\AppData\Roaming);
+    # cygpath (bundled with Git for Windows) converts it to the
+    # POSIX-style path Git Bash's own tools expect.
+    if command -v cygpath >/dev/null 2>&1; then
+      WIN_APPDATA="$(cygpath -u "$APPDATA")"
+    else
+      WIN_APPDATA="$APPDATA"
+    fi
+    VSCODE_USER_DIR="$WIN_APPDATA/Code/User"
+    link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+    link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+    link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"
+    echo "Windows VS Code local user scope linked."
+    exit 0
+    ;;
+esac
 
 # bash
 link "$DOTFILES_DIR/bash/bash_aliases" "$HOME/.bash_aliases"
@@ -55,9 +92,12 @@ link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
 # vscode
-# A single machine can be used both as a local desktop and, at other times,
-# as a vscode-server-backed remote target (WSL/SSH/Dev Containers) — the two
-# aren't mutually exclusive, so both scopes are linked whenever relevant.
+# Only VS Code's local user scope (settings.json/keybindings.json/snippets)
+# is tracked here. Its "Remote [WSL/SSH/...]" machine scope deliberately
+# isn't: VS Code creates and persists that file itself the first time any
+# setting is set through the Remote Settings UI, and the whole point of
+# that scope is to hold overrides specific to *this* box — content that by
+# definition doesn't belong in a shared repo. See README.
 
 # Local user scope — always linked. VS Code creates ~/.config/Code itself on
 # first local launch, but a fresh machine may not have run VS Code yet when
@@ -67,32 +107,12 @@ link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
 link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"
 
-# Machine-scoped remote settings (applies to any client, incl. browser,
-# connecting to this machine over vscode-server). Only linked if
-# ~/.vscode-server already exists — that dir is always created by the
-# server itself before this script runs, so its presence means this
-# machine has been used as a remote target; its absence means it hasn't,
-# and there's no point creating it speculatively. keybindings.json has no
-# such remote scope in VS Code, so it's not linked here; see README for
-# manual setup.
-if [ -d "$HOME/.vscode-server" ]; then
-  link "$DOTFILES_DIR/vscode/settings.json" "$HOME/.vscode-server/data/Machine/settings.json"
-fi
-
-# Snippets, like keybindings.json above, have no remote/machine scope in VS
-# Code — the docs classify snippets as a UI Extension resource, always run
-# on the local client, so a remote session uses the connecting client's own
-# local snippets rather than anything on the remote host. No remote link
-# needed here.
-
-# zsh isn't installed on every machine this repo targets, so its VS Code
-# terminal profile default can't live in the tracked settings.json (a
-# machine without zsh would fail to launch a terminal). Nudge instead: add
-# it yourself to the machine-local section at the bottom of
-# vscode/settings.json, and never commit that line.
-if command -v zsh >/dev/null 2>&1 && ! grep -q '"terminal.integrated.defaultProfile.linux"' "$DOTFILES_DIR/vscode/settings.json"; then
-  echo "zsh detected — add \"terminal.integrated.defaultProfile.linux\": \"zsh\" to the machine-local section at the bottom of vscode/settings.json (do not commit it)."
-fi
+# keybindings.json and snippets have no remote/machine scope in VS Code —
+# the docs classify them as UI Extension resources, always run on the
+# local client, so a remote session uses the connecting client's own local
+# versions rather than anything on the remote host. No remote link needed
+# for either; see README for manual setup on a client that hasn't run
+# this script itself (as either the Linux or the Windows branch above).
 
 # The `code` CLI only works once a client has actually connected — during
 # Codespaces' automatic dotfiles provisioning (this script), no client is
