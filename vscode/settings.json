@@ -65,4 +65,5 @@
   "workbench.editor.wrapTabs": true,
   "workbench.startupEditor": "none",
   "window.zoomLevel": 1.8
+  // --- machine-local settings below — never commit these ---
 }
