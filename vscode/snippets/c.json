@@ -8,6 +8,47 @@
         ],
         "description": "Enum definition"
     },
+    "for": {
+        "prefix": "for",
+        "body": [
+            "for (${1:int i = 0}; ${2:i < n}; ${3:i++}) {",
+            "\t$4",
+            "}"
+        ],
+        "description": "For loop"
+    },
+    "header guard": {
+        "prefix": "ifndef",
+        "body": [
+            "#ifndef ${1:HEADER_H}",
+            "#define ${1:HEADER_H}",
+            "",
+            "$2",
+            "",
+            "#endif // ${1:HEADER_H}"
+        ],
+        "description": "Include guard"
+    },
+    "if": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$2",
+            "}"
+        ],
+        "description": "If statement"
+    },
+    "if/else": {
+        "prefix": "if",
+        "body": [
+            "if (${1:condition}) {",
+            "\t$2",
+            "} else {",
+            "\t$3",
+            "}"
+        ],
+        "description": "If/else statement"
+    },
     "main function": {
         "prefix": "main",
         "body": [
@@ -20,12 +61,19 @@
         ],
         "description": "Main function template"
     },
-    "printf normal": {
+    "pragma once": {
+        "prefix": "once",
+        "body": [
+            "#pragma once"
+        ],
+        "description": "Include guard (pragma once)"
+    },
+    "print custom log": {
         "prefix": "printf",
         "body": [
-            "printf(\"$1\\n\"$2);"
+            "printf(\"[NN] %s:%d$1\\n\", __FILE__, __LINE__$2);"
         ],
-        "description": "print normal"
+        "description": "print custom log"
     },
     "print debug": {
         "prefix": "printf",
@@ -36,12 +84,22 @@
         ],
         "description": "print debug"
     },
-    "print custom log": {
+    "printf normal": {
         "prefix": "printf",
         "body": [
-            "printf(\"[NN] %s:%d$1\\n\", __FILE__, __LINE__$2);"
+            "printf(\"$1\\n\"$2);"
         ],
-        "description": "print custom log"
+        "description": "print normal"
+    },
+    "struct": {
+        "prefix": "struct",
+        "body": [
+            "struct ${1:Name}",
+            "{",
+            "\t${2:type} ${3:member};",
+            "};"
+        ],
+        "description": "Struct definition"
     },
     "typedef(struct)": {
         "prefix": "typedef",
@@ -49,8 +107,17 @@
             "typedef struct",
             "{",
             "\t${1:type_t} ${2:m_name};",
-            "} ${3:Struct_t};",
+            "} ${3:Struct_t};"
         ],
         "description": "Main function template"
     },
+    "while": {
+        "prefix": "while",
+        "body": [
+            "while (${1:condition}) {",
+            "\t$2",
+            "}"
+        ],
+        "description": "While loop"
+    }
 }
