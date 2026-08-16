@@ -1,5 +1,9 @@
 # Sourced by ~/.bashrc; kept separate so the distro-default .bashrc stays untouched.
 
+# User-local binaries (e.g. Claude Code's native installer) live here; not
+# guaranteed to already be on PATH in every shell.
+export PATH="$HOME/.local/bin:$PATH"
+
 alias c='code -g'
 alias cw='cd ${workspaceFolder}'
 alias ..='cd ..'

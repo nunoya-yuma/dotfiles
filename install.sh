@@ -105,6 +105,24 @@ if command -v code >/dev/null 2>&1 && [ -f "$DOTFILES_DIR/vscode/extensions.txt"
   done < "$DOTFILES_DIR/vscode/extensions.txt"
 fi
 
+# Claude Code CLI
+# Codespaces only — this script also runs as a plain manual ./install.sh on
+# any other machine (see README), and installing an agentic CLI nobody asked
+# for there would be a surprise. $CODESPACES=true is the env var GitHub sets
+# in every Codespace container. Auth: if an ANTHROPIC_API_KEY development
+# environment secret is registered for this repo at
+# github.com/settings/codespaces, Claude Code picks it up automatically and
+# skips the interactive browser login (see README). Without it, run `claude`
+# once after connecting to log in interactively via a Pro/Max/Team/Enterprise
+# account instead.
+if [ "${CODESPACES:-}" = "true" ] && ! command -v claude >/dev/null 2>&1; then
+  if curl -fsSL https://claude.ai/install.sh | bash; then
+    echo "Installed Claude Code"
+  else
+    echo "Skipped Claude Code install (curl https://claude.ai/install.sh | bash failed)"
+  fi
+fi
+
 # agents
 # The canonical file is named AGENTS.md, not CLAUDE.md — Claude Code
 # doesn't read AGENTS.md natively, but it does follow a symlink named
