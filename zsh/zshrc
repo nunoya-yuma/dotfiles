@@ -69,6 +69,10 @@ alias l='ls -CF'
 alias g='git'
 alias c='code -g'
 alias cw='cd ${workspaceFolder}'
+# Personal justfile shortcuts (see project-init's templates/justfile).
+# Not named `justfile`, so plain `just` won't auto-discover it — must be
+# invoked from the project root.
+alias ju='just --justfile .private-scratch/justfile --working-directory .'
 alias ..='cd ..'
 alias ...='cd ../..'
 alias log='script /tmp/$(date +%m%d_%H%M_%S).log -c'

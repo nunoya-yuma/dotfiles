@@ -11,13 +11,25 @@ Personal environment setup, managed so it can be reproduced automatically on
   Sources `~/.bash_aliases.local` if present, for machine-specific
   additions that shouldn't be committed (created empty by `install.sh` on
   first run, never overwritten after).
+  - `ju` — runs a personal `.private-scratch/justfile` (see
+    [project-init](https://github.com/nunoya-yuma/project-init)) via
+    `just --justfile .private-scratch/justfile --working-directory .`,
+    bypassing `just`'s own auto-discovery so it never collides with a
+    project's own tracked `justfile`. Must be run from the project root.
+    Requires the `just` command runner itself, which this script does
+    **not** install — pick whichever fits the machine:
+    - Debian/Ubuntu (WSL, Codespaces, Linux desktop): `apt install just`
+    - Official installer, any Linux/macOS: `curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin`
+    - Already have a Rust toolchain: `cargo install just`
+    - Native Windows: `winget install --id Casey.Just --exact`
 - `zsh/zshrc` — symlinked to `~/.zshrc`, but only if zsh is actually
   installed on the machine (`install.sh` checks `command -v zsh`) — zsh
   isn't installed on every machine this repo targets, and an inert
   `~/.zshrc` on a machine that never runs zsh just adds clutter. Aliases,
   `EDITOR`/`VISUAL`, history, completion, keybindings, and a
   git-aware prompt (via `vcs_info`). Kept in sync with
-  `bash/bash_aliases` wherever zsh has an equivalent. Sources
+  `bash/bash_aliases` wherever zsh has an equivalent, including the `ju`
+  alias and its `just` prerequisite described above. Sources
   `~/.zshrc.local` if present, for machine-specific additions that
   shouldn't be committed (created empty by `install.sh` on first run,
   never overwritten after — same pattern as `~/.bash_aliases.local`).
