@@ -97,16 +97,9 @@ link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
 link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"
 
-# The `code` CLI only works once a client has actually connected — during
-# Codespaces' automatic dotfiles provisioning (this script), no client is
-# attached yet, so this reliably fails there. Re-run install.sh manually
-# after connecting to actually install extensions this way.
-if command -v code >/dev/null 2>&1 && [ -f "$DOTFILES_DIR/vscode/extensions.txt" ]; then
-  while IFS= read -r ext; do
-    [ -z "$ext" ] && continue
-    code --install-extension "$ext" --force || echo "Skipped $ext (no VS Code client connected yet)"
-  done < "$DOTFILES_DIR/vscode/extensions.txt"
-fi
+# vscode/extensions.txt is intentionally not installed automatically here —
+# not every extension wanted on one machine is wanted (or allowed) on
+# another. See README for how to install from it manually when wanted.
 
 # Claude Code CLI
 # Codespaces only — this script also runs as a plain manual ./install.sh on
