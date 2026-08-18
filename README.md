@@ -95,13 +95,15 @@ Personal environment setup, managed so it can be reproduced automatically on
   `install.sh` itself, otherwise nothing to link on the remote host.
 - `vscode/extensions.txt` — extension IDs to install via
   `code --install-extension` (one per line). **Not installed automatically
-  by Codespaces' dotfiles provisioning** — at that point in the container
-  lifecycle no VS Code client has connected yet, so the `code` CLI has
-  nothing to talk to and the install silently fails (`install.sh` logs
-  this and moves on rather than aborting). To actually install them,
-  re-run `./install.sh` manually after connecting, or rely on VS Code's
-  Settings Sync. For extensions a specific *project* always needs
-  regardless of who opens it, use that project's own
+  by `install.sh`** on any machine — not every extension wanted on one
+  machine is wanted (or allowed) on another, so this list is a manual
+  opt-in rather than something this script pushes onto every machine it
+  touches. To actually install them, run:
+  ```sh
+  while IFS= read -r ext; do code --install-extension "$ext"; done < vscode/extensions.txt
+  ```
+  or rely on VS Code's Settings Sync. For extensions a specific *project*
+  always needs regardless of who opens it, use that project's own
   `devcontainer.json` → `customizations.vscode.extensions` instead — that
   installs automatically because the connecting client (not this script)
   is what triggers it.
@@ -153,8 +155,8 @@ for why, including why this applies even on a machine that also uses WSL.
 
 On every other machine, it symlinks the files above into `$HOME` (backing
 up any pre-existing non-symlink file it would overwrite as
-`<file>.bak.<timestamp>`), then attempts to install the VS Code extensions
-(see caveat above).
+`<file>.bak.<timestamp>`). VS Code extensions are not part of this —
+see the `vscode/extensions.txt` entry above for installing them manually.
 
 ### Codespaces
 
