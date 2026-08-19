@@ -1,0 +1,50 @@
+#compdef ju
+
+# `just --completions zsh` (see _just) always shells out to the literal
+# `just` binary with the typed words as-is — it has no idea `ju` means
+# `just --justfile .private-scratch/justfile --working-directory .`. Left
+# alone, `ju <Tab>` would complete recipes from a project's regular
+# justfile (or nothing) instead of .private-scratch/justfile. So this
+# reimplements the same dynamic-completion protocol as _just's
+# _clap_dynamic_completer_just, but injects ju's flags into the argv sent
+# to `just` and shifts _CLAP_COMPLETE_INDEX by the 4 injected words.
+_ju() {
+  # _just computes _CLAP_COMPLETE_INDEX as CURRENT - 1 (0-based arg index,
+  # with argv[0] standing in for words[1], the command name). We inject 4
+  # extra argv slots (--justfile, its value, --working-directory, its
+  # value) ahead of the real args, so the same word now sits 4 slots
+  # later: (CURRENT - 1) + 4 = CURRENT + 3.
+  local _CLAP_COMPLETE_INDEX=$(( CURRENT + 3 ))
+  local _CLAP_IFS=$'\n'
+  local -a args
+  args=(just --justfile .private-scratch/justfile --working-directory . "${words[@]:1}")
+
+  local completions=("${(@f)$( \
+      _CLAP_IFS="$_CLAP_IFS" \
+      _CLAP_COMPLETE_INDEX="$_CLAP_COMPLETE_INDEX" \
+      JUST_COMPLETE="zsh" \
+      just -- "${args[@]}" 2>/dev/null \
+  )}")
+
+  if [[ -n $completions ]]; then
+    local -a dirs=()
+    local -a other=()
+    local completion
+    for completion in $completions; do
+      local value="${completion%%:*}"
+      if [[ "$value" == */ ]]; then
+        local dir_no_slash="${value%/}"
+        if [[ "$completion" == *:* ]]; then
+          local desc="${completion#*:}"
+          dirs+=("$dir_no_slash:$desc")
+        else
+          dirs+=("$dir_no_slash")
+        fi
+      else
+        other+=("$completion")
+      fi
+    done
+    [[ -n $dirs ]] && _describe -V 'values' dirs -S '/' -r '/'
+    [[ -n $other ]] && _describe -V 'values' other
+  fi
+}
