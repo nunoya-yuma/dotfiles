@@ -70,6 +70,7 @@ fi
 # clutter to a machine that never uses it.
 if command -v zsh >/dev/null 2>&1; then
   link "$DOTFILES_DIR/zsh/zshrc" "$HOME/.zshrc"
+  link "$DOTFILES_DIR/zsh/completions" "$HOME/.zsh/completions"
 
   ZSH_LOCAL="$HOME/.zshrc.local"
   if [ ! -e "$ZSH_LOCAL" ]; then

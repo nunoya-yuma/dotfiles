@@ -37,8 +37,18 @@ setopt auto_pushd
 
 ## Completion ##
 
+# Completion functions this repo ships (see zsh/completions), e.g. `just`
+# and its `ju` alias. Must be added to fpath before compinit runs.
+fpath=("$HOME/.zsh/completions" $fpath)
+
 autoload -Uz compinit
 compinit
+
+# `just --completions zsh` only defines completion for the literal `just`
+# command; the `ju` alias below needs its own binding to the custom `_ju`
+# function (zsh/completions/_ju), which knows to inject `ju`'s
+# --justfile/--working-directory flags.
+compdef _ju ju
 
 setopt correct
 
