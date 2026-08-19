@@ -53,6 +53,14 @@ esac
 # bash
 link "$DOTFILES_DIR/bash/bash_aliases" "$HOME/.bash_aliases"
 
+# bash-completion's dynamic loader (present when the bash-completion
+# package is installed) auto-sources a file matching the typed command
+# name from this XDG user dir the first time it's needed — no eager
+# sourcing required here. Harmless no-op if bash-completion isn't
+# installed or ~/.bashrc doesn't source it.
+link "$DOTFILES_DIR/bash/completions/just" "$HOME/.local/share/bash-completion/completions/just"
+link "$DOTFILES_DIR/bash/completions/ju" "$HOME/.local/share/bash-completion/completions/ju"
+
 # Machine-specific overrides — never tracked by this repo, never overwritten.
 LOCAL_ALIASES="$HOME/.bash_aliases.local"
 if [ ! -e "$LOCAL_ALIASES" ]; then
