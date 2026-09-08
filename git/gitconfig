@@ -16,3 +16,9 @@
 	st = status
 	co = checkout
 	lg = log --graph --oneline --decorate --all
+	# Delete local branches whose upstream was deleted on the remote
+	# (e.g. after a PR merge with "delete branch on merge"). Uses -D
+	# because squash/rebase merges give the local branch no ancestor
+	# relationship to main, so -d would refuse to delete it even
+	# though the remote confirms it's done.
+	gone = "!git fetch --prune && git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
