@@ -144,7 +144,10 @@ Personal environment setup, managed so it can be reproduced automatically on
   most of those tools look for, and to `~/.copilot/skills`, GitHub
   Copilot's own explicit path (not every Copilot surface is guaranteed to
   check the universal one) — making every skill here usable outside
-  Claude Code too without any format changes.
+  Claude Code too without any format changes. Because of that shared
+  linking, keep new skills to a plain `SKILL.md` and avoid depending on
+  tool-specific automation (e.g. Claude Code hooks) that the other tools
+  wouldn't run.
 - Claude Code CLI itself — installed via the official native installer
   (`curl -fsSL https://claude.ai/install.sh | bash`), but only when
   `install.sh` detects it's running inside a Codespace (`$CODESPACES=true`).
