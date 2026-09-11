@@ -15,6 +15,7 @@
 [alias]
 	st = status
 	co = checkout
+	main = switch main
 	lg = log --graph --oneline --decorate --all
 	# Delete local branches whose upstream was deleted on the remote
 	# (e.g. after a PR merge with "delete branch on merge"). Uses -D
