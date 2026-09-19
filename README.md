@@ -22,6 +22,26 @@ Personal environment setup, managed so it can be reproduced automatically on
     - Official installer, any Linux/macOS: `curl --proto '=https' --tlsv1.2 -sSf https://just.systems/install.sh | bash -s -- --to ~/.local/bin`
     - Already have a Rust toolchain: `cargo install just`
     - Native Windows: `winget install --id Casey.Just --exact`
+  - fzf key bindings (`Ctrl+T` paste a path, `Ctrl+R` fuzzy history search,
+    `Alt+C` fuzzy-cd) and `**<Tab>` fuzzy completion, via
+    `eval "$(fzf --bash)"`. Guarded behind `command -v fzf` plus a check
+    that it actually produced output, so a machine without it (or with a
+    too-old build) is unaffected either way — this script does **not**
+    install fzf itself. Requires fzf **0.48+** for the `--bash`/`--zsh`
+    flags:
+    - Debian/Ubuntu (WSL, Codespaces, Linux desktop): the `apt install
+      fzf` package is usually too old for this (0.44.1 on Ubuntu 24.04,
+      no `--bash` support) — prefer the official installer, binary-only
+      so it doesn't touch any rc file itself, symlinked onto
+      `~/.local/bin` (already on `PATH`, see above):
+      ```sh
+      git clone --depth 1 https://github.com/junegunn/fzf.git ~/.fzf
+      ~/.fzf/install --bin
+      ln -sf ~/.fzf/bin/fzf ~/.local/bin/fzf
+      ```
+    - macOS, or Linux via Homebrew: `brew install fzf` (kept current
+      enough by Homebrew)
+    - Native Windows: `winget install -e --id junegunn.fzf`
 - `zsh/zshrc` — symlinked to `~/.zshrc`, but only if zsh is actually
   installed on the machine (`install.sh` checks `command -v zsh`) — zsh
   isn't installed on every machine this repo targets, and an inert
@@ -29,7 +49,8 @@ Personal environment setup, managed so it can be reproduced automatically on
   `EDITOR`/`VISUAL`, history, completion, keybindings, and a
   git-aware prompt (via `vcs_info`). Kept in sync with
   `bash/bash_aliases` wherever zsh has an equivalent, including the `ju`
-  alias and its `just` prerequisite described above. Sources
+  alias, the fzf integration (`eval "$(fzf --zsh)"`), and their
+  respective prerequisites described above. Sources
   `~/.zshrc.local` if present, for machine-specific additions that
   shouldn't be committed (created empty by `install.sh` on first run,
   never overwritten after — same pattern as `~/.bash_aliases.local`).

@@ -104,6 +104,18 @@ else
   export VISUAL='vi'
 fi
 
+## fzf ##
+
+# fzf key bindings (Ctrl+T, Ctrl+R, Alt+C) and completion, if installed.
+# Not installed by this repo — see README for platform-specific instructions.
+# `--zsh` needs fzf 0.48+; older installs print an "unknown option" error
+# to stderr and produce no stdout, so guard on actual output to stay a
+# silent no-op instead of spamming every new shell with that error.
+if command -v fzf >/dev/null 2>&1; then
+  fzf_init="$(fzf --zsh 2>/dev/null)" && [ -n "$fzf_init" ] && eval "$fzf_init"
+  unset fzf_init
+fi
+
 ## Prompt ##
 
 autoload -Uz vcs_info
