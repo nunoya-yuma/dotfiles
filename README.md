@@ -27,8 +27,13 @@ Personal environment setup, managed so it can be reproduced automatically on
     `eval "$(fzf --bash)"`. Guarded behind `command -v fzf` plus a check
     that it actually produced output, so a machine without it (or with a
     too-old build) is unaffected either way — this script does **not**
-    install fzf itself. Requires fzf **0.48+** for the `--bash`/`--zsh`
-    flags:
+    install fzf itself. Sets `FZF_COMPLETION_PATH_COMMANDS` to fzf's own
+    default list minus `git` before that eval — fzf's default list
+    includes `git`, and since this file loads before `~/.bashrc` sets up
+    bash-completion's dynamic loader, fzf ends up permanently owning
+    `git`'s bash completion instead of the real subcommand/branch
+    completion, breaking `git <Tab>`. Requires fzf **0.48+** for the
+    `--bash`/`--zsh` flags:
     - Debian/Ubuntu (WSL, Codespaces, Linux desktop): the `apt install
       fzf` package is usually too old for this (0.44.1 on Ubuntu 24.04,
       no `--bash` support) — prefer the official installer, binary-only

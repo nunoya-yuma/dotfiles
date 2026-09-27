@@ -42,6 +42,15 @@ fi
 # to stderr and produce no stdout, so guard on actual output to stay a
 # silent no-op instead of spamming every new shell with that error.
 if command -v fzf >/dev/null 2>&1; then
+  # fzf's default FZF_COMPLETION_PATH_COMMANDS (see its shell/completion.bash)
+  # includes `git`, so `eval "$(fzf --bash)"` permanently rebinds git's bash
+  # completion to fzf's generic path completer. This file is sourced (via
+  # ~/.bash_aliases) before ~/.bashrc loads bash-completion, so at eval time
+  # git has no completion yet for fzf to preserve/wrap -- bash-completion's
+  # dynamic loader then never fires for git (a completion is already
+  # registered), permanently losing git's real subcommand/branch completion.
+  # Reuse fzf's default list (fzf 0.74.4) minus `git` to keep that intact.
+  export FZF_COMPLETION_PATH_COMMANDS="awk bat cat code diff diff3 emacs emacsclient ex file ftp g++ gcc gvim head hg hx java javac ld less more mvim nvim patch perl python ruby sed sftp sort source tail tee uniq vi view vim wc xdg-open basename bunzip2 bzip2 chmod chown curl cp dirname du find grep gunzip gzip hg jar ln ls mv open rm rsync scp svn tar unzip zip"
   fzf_init="$(fzf --bash 2>/dev/null)" && [ -n "$fzf_init" ] && eval "$fzf_init"
   unset fzf_init
 fi
