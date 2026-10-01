@@ -71,8 +71,6 @@ Personal environment setup, managed so it can be reproduced automatically on
     git clone https://github.com/zsh-users/zsh-syntax-highlighting ~/.zsh/zsh-syntax-highlighting
     ```
 - `git/gitconfig` — symlinked to `~/.gitconfig`.
-- `git/ignore` — symlinked to `~/.config/git/ignore`, git's default global
-  excludes file (read automatically, no `core.excludesFile` needed).
 - `git/hooks/` — symlinked to `~/.githooks`, wired up via
   `core.hooksPath` in `git/gitconfig` so it applies to every repo on the
   machine.
