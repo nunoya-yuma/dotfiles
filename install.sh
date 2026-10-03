@@ -9,6 +9,12 @@ DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 link() {
   local src="$1" dst="$2"
+  # Already correct: skip, so re-runs on native Windows don't need the
+  # symlink privilege again unless a link is actually new or changed.
+  if [ -L "$dst" ] && [ "$(readlink "$dst")" = "$src" ]; then
+    echo "Already linked $dst"
+    return
+  fi
   mkdir -p "$(dirname "$dst")"
   if [ -e "$dst" ] && [ ! -L "$dst" ]; then
     mv "$dst" "$dst.bak.$(date +%Y%m%d%H%M%S)"
