@@ -42,6 +42,10 @@ case "$(uname -s)" in
       WIN_APPDATA="$APPDATA"
     fi
     VSCODE_USER_DIR="$WIN_APPDATA/Code/User"
+    # Git Bash's `ln -s` silently copies by default (MSYS winsymlinks:deepcopy),
+    # leaving files that drift from this repo. nativestrict creates a real
+    # Windows symlink or fails, so link() reports the missing privilege.
+    export MSYS="winsymlinks:nativestrict${MSYS:+ $MSYS}"
     link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
     link "$DOTFILES_DIR/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
     link "$DOTFILES_DIR/vscode/snippets" "$VSCODE_USER_DIR/snippets"

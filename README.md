@@ -190,7 +190,9 @@ SSH target, a Dev Container, Codespaces, or native Windows via Git Bash. On
 native Windows it only links the VS Code files into `%APPDATA%\Code\User`
 before exiting, requiring either an elevated (Administrator) shell or
 Developer Mode enabled (Settings → Update & Security → For developers) to
-create the symlinks; see
+create the symlinks (it sets `MSYS=winsymlinks:nativestrict`, so without
+either it fails instead of silently copying the files, which Git Bash's
+`ln -s` does by default); see
 [`docs/decisions/0001-vscode-settings-scope-tracking.md`](docs/decisions/0001-vscode-settings-scope-tracking.md)
 for why, including why this applies even on a machine that also uses WSL.
 
