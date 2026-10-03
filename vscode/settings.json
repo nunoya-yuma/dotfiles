@@ -71,6 +71,17 @@
     "workspaceFolder": "${workspaceFolder}"
   },
   "terminal.integrated.scrollback": 5000,
+  // vscode-neovim: hand every Ctrl key in normal/visual mode to VS Code
+  // (nvim/init.lua maps Space-leader stand-ins); in insert mode keep the
+  // default list minus "c", which is also checked in visual mode and
+  // would otherwise turn Ctrl+C on a mouse selection into Escape
+  "vscode-neovim.ctrlKeysForNormalMode": [],
+  "vscode-neovim.ctrlKeysForInsertMode": ["a", "d", "h", "j", "m", "o", "r", "t", "u", "w"],
+  "vscode-neovim.compositeKeys": {
+    "jk": {
+      "command": "vscode-neovim.escape"
+    }
+  },
   "workbench.colorCustomizations": {
     // Color of Selected line
     "editor.lineHighlightBackground": "#303030"
