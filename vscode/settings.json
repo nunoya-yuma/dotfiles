@@ -71,6 +71,13 @@
     "workspaceFolder": "${workspaceFolder}"
   },
   "terminal.integrated.scrollback": 5000,
+  // Run vscode-neovim next to the files (WSL, SSH, or local) so it uses
+  // that side's nvim and nvim/init.lua, with no per-machine useWSL/path
+  "remote.extensionKind": {
+    "asvetliakov.vscode-neovim": [
+      "workspace"
+    ]
+  },
   // vscode-neovim: hand every Ctrl key in normal/visual mode to VS Code
   // (nvim/init.lua maps Space-leader stand-ins); in insert mode keep the
   // default list minus "c", which is also checked in visual mode and

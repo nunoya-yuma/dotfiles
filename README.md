@@ -102,7 +102,11 @@ Personal environment setup, managed so it can be reproduced automatically on
 - `nvim/` — symlinked as a directory to `~/.config/nvim`. Currently a
   trial config for the VS Code Neovim extension (`vim.g.vscode`): Space
   as leader standing in for the Ctrl keys handed back to VS Code (see
-  `vscode-neovim.ctrlKeysFor*` in `vscode/settings.json`).
+  `vscode-neovim.ctrlKeysFor*` in `vscode/settings.json`). The extension
+  is pinned to the workspace side (`remote.extensionKind`), so in a
+  Remote-WSL/SSH window it must be installed there (`code
+  --install-extension asvetliakov.vscode-neovim` from that side's
+  terminal) and uses that side's `nvim`.
 - `vscode/settings.json` — VS Code's local user scope only: genuinely
   common settings that should apply everywhere, independent of which
   machine is being connected to (or whether one is at all). `install.sh`
