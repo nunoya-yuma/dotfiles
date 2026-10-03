@@ -99,6 +99,10 @@ Personal environment setup, managed so it can be reproduced automatically on
     presence of a NUL byte) are left alone. Guards against files (often
     agent-edited) committed with no final newline, or several.
   - `pre-push` — chains only, no custom checks of its own yet.
+- `nvim/` — symlinked as a directory to `~/.config/nvim`. Currently a
+  trial config for the VS Code Neovim extension (`vim.g.vscode`): Space
+  as leader standing in for the Ctrl keys handed back to VS Code (see
+  `vscode-neovim.ctrlKeysFor*` in `vscode/settings.json`).
 - `vscode/settings.json` — VS Code's local user scope only: genuinely
   common settings that should apply everywhere, independent of which
   machine is being connected to (or whether one is at all). `install.sh`

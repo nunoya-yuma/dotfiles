@@ -101,6 +101,9 @@ link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/ignore" "$HOME/.config/git/ignore"
 link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
+# nvim
+link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
+
 # vscode
 # Local user scope — always linked. VS Code creates ~/.config/Code itself on
 # first local launch, but a fresh machine may not have run VS Code yet when
