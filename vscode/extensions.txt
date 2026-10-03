@@ -1,4 +1,5 @@
 anthropic.claude-code
+asvetliakov.vscode-neovim
 charliermarsh.ruff
 donjayamanne.githistory
 eamodio.gitlens

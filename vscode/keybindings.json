@@ -89,5 +89,11 @@
         "key": "ctrl+shift+l",
         "command": "editor.action.accessibleView",
         "when": "terminalFocus"
+    },
+    // vscode-neovim maps the physical US "[" key to Escape; on a JIS
+    // keyboard that key is "@", which shadows Ctrl+@ (toggle terminal)
+    {
+        "key": "ctrl+[BracketLeft]",
+        "command": "-vscode-neovim.escape"
     }
 ]
