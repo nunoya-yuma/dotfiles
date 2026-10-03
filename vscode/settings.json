@@ -76,7 +76,18 @@
   // default list minus "c", which is also checked in visual mode and
   // would otherwise turn Ctrl+C on a mouse selection into Escape
   "vscode-neovim.ctrlKeysForNormalMode": [],
-  "vscode-neovim.ctrlKeysForInsertMode": ["a", "d", "h", "j", "m", "o", "r", "t", "u", "w"],
+  "vscode-neovim.ctrlKeysForInsertMode": [
+    "a",
+    "d",
+    "h",
+    "j",
+    "m",
+    "o",
+    "r",
+    "t",
+    "u",
+    "w"
+  ],
   "vscode-neovim.compositeKeys": {
     "jk": {
       "command": "vscode-neovim.escape"
