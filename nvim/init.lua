@@ -15,3 +15,8 @@ vim.keymap.set('n', '<M-r>', '<C-r>')
 -- Increment/decrement; in visual mode, every number in the selection
 vim.keymap.set({ 'n', 'x' }, '<M-a>', '<C-a>')
 vim.keymap.set({ 'n', 'x' }, '<M-x>', '<C-x>')
+
+-- Share yank/paste registers with the system clipboard (VS Code's
+-- clipboard provider under vscode-neovim), so normal-mode p/P paste what
+-- Ctrl+C copied, after/before the block cursor's character
+vim.opt.clipboard = 'unnamedplus'
