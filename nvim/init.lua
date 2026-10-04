@@ -1,26 +1,17 @@
-vim.g.mapleader = " "
+-- Alt stand-ins for the Ctrl keys handed back to VS Code. Alt is a real
+-- modifier, so holding it and tapping a key repeats the action with no
+-- timeout (unlike a Space leader, whose "held" state Neovim can't see).
+-- In VS Code these arrive via vscode-neovim.send entries in
+-- vscode/keybindings.json; in a terminal Neovim gets <M-x> directly.
 
--- Make a lone <Space> do nothing instead of moving the cursor right
-vim.keymap.set('n', '<Space>', '<Nop>')
--- Collapse auto-repeated <Space> (from holding the key) into one leader press,
--- so "hold Space, then press d" behaves like "Space, d"
-vim.keymap.set('n', '<Space><Space>', '<Space>', { remap = true })
+-- remap = true so <C-d>/<C-u> go through vscode-neovim's own overrides
+-- (VS Code-side scrolling) instead of Neovim's builtins
+vim.keymap.set('n', '<M-d>', '<C-d>', { remap = true })
+vim.keymap.set('n', '<M-u>', '<C-u>', { remap = true })
 
-if vim.g.vscode then
-  -- remap = true so these go through vscode-neovim's own <C-d>/<C-u>
-  -- overrides (VS Code-side scrolling) instead of Neovim's builtins.
-  -- Trailing <leader> re-enters the leader-pending state after each scroll,
-  -- so holding Space and tapping d/u repeatedly keeps scrolling
-  vim.keymap.set('n', '<leader>d', '<C-d><leader>', { remap = true })
-  vim.keymap.set('n', '<leader>u', '<C-u><leader>', { remap = true })
-end
+vim.keymap.set('n', '<M-v>', '<C-v>')
+vim.keymap.set('n', '<M-r>', '<C-r>')
 
-vim.keymap.set('n', '<leader>v', '<C-v>')
-vim.keymap.set('n', '<leader>r', '<C-r>')
-
--- Increment/decrement; trailing <leader> allows repeating while Space is held
-vim.keymap.set('n', '<leader>a', '<C-a><leader>', { remap = true })
-vim.keymap.set('n', '<leader>x', '<C-x><leader>', { remap = true })
--- In visual mode, apply to every number in the selection
-vim.keymap.set('x', '<leader>a', '<C-a>')
-vim.keymap.set('x', '<leader>x', '<C-x>')
+-- Increment/decrement; in visual mode, every number in the selection
+vim.keymap.set({ 'n', 'x' }, '<M-a>', '<C-a>')
+vim.keymap.set({ 'n', 'x' }, '<M-x>', '<C-x>')
