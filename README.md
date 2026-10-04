@@ -98,9 +98,12 @@ Personal environment setup, managed so it can be reproduced automatically on
     agent-edited) committed with no final newline, or several.
   - `pre-push` — chains only, no custom checks of its own yet.
 - `nvim/` — symlinked as a directory to `~/.config/nvim`. Currently a
-  trial config for the VS Code Neovim extension (`vim.g.vscode`): Space
-  as leader standing in for the Ctrl keys handed back to VS Code (see
-  `vscode-neovim.ctrlKeysFor*` in `vscode/settings.json`). The extension
+  trial config for the VS Code Neovim extension: Alt combos standing in
+  for the Ctrl keys handed back to VS Code (see
+  `vscode-neovim.ctrlKeysFor*` in `vscode/settings.json`), forwarded to
+  Neovim by `vscode-neovim.send` entries in `vscode/keybindings.json`.
+  Alt rather than a Space leader because only a real modifier can be
+  held while tapping a key repeatedly. The extension
   is pinned to the workspace side (`remote.extensionKind`), so in a
   Remote-WSL/SSH window it must be installed there (`code
   --install-extension asvetliakov.vscode-neovim` from that side's
