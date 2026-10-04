@@ -25,40 +25,7 @@
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
   "files.trimTrailingWhitespace": true,
-  "git.autofetch": true,
-  "git.confirmSync": false,
-  "git.detectSubmodulesLimit": 100,
-  "git.suggestSmartCommit": false,
-  "gitlens.views.stashes.files.layout": "list",
-  // Run vscode-neovim next to the files (WSL, SSH, or local) so it uses
-  // that side's nvim and nvim/init.lua, with no per-machine useWSL/path
-  "remote.extensionKind": {
-    "asvetliakov.vscode-neovim": [
-      "workspace"
-    ]
-  },
-  "ruff.lint.select": [
-    "ALL"
-  ],
-  "ruff.lint.ignore": [
-    "COM812", // trailing comma conflicts with formatter
-    "CPY", // this project does not use copyright header comments
-    "D203", // 1 blank line required before class docstring (conflicts with D211)
-    "D213" // multi-line docstring summary should start at the second line (conflicts with D212)
-  ],
-  "search.exclude": {
-    "**/.git": true,
-    "**/build*": true,
-    "**/target": true,
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/__pycache__": true,
-    "**/.pytest_cache": true,
-    "**/.ruff_cache": true,
-    "**/.mypy_cache": true,
-    "**/.venv": true,
-    "**/venv": true
-  },
+  // Mirrors search.exclude (plus .git internals); keep the two in sync
   "files.watcherExclude": {
     "**/.git/objects/**": true,
     "**/.git/subtree-cache/**": true,
@@ -73,7 +40,42 @@
     "**/.venv/**": true,
     "**/venv/**": true
   },
+  "git.autofetch": true,
+  "git.confirmSync": false,
+  "git.detectSubmodulesLimit": 100,
+  "git.suggestSmartCommit": false,
+  "gitlens.views.stashes.files.layout": "list",
+  // Run vscode-neovim next to the files (WSL, SSH, or local) so it uses
+  // that side's nvim and nvim/init.lua, with no per-machine useWSL/path
+  "remote.extensionKind": {
+    "asvetliakov.vscode-neovim": [
+      "workspace"
+    ]
+  },
+  "ruff.lint.ignore": [
+    "COM812", // trailing comma conflicts with formatter
+    "CPY", // this project does not use copyright header comments
+    "D203", // 1 blank line required before class docstring (conflicts with D211)
+    "D213" // multi-line docstring summary should start at the second line (conflicts with D212)
+  ],
+  "ruff.lint.select": [
+    "ALL"
+  ],
   "search.defaultViewMode": "tree",
+  // Mirrored in files.watcherExclude; keep the two in sync
+  "search.exclude": {
+    "**/.git": true,
+    "**/build*": true,
+    "**/target": true,
+    "**/node_modules": true,
+    "**/dist": true,
+    "**/__pycache__": true,
+    "**/.pytest_cache": true,
+    "**/.ruff_cache": true,
+    "**/.mypy_cache": true,
+    "**/.venv": true,
+    "**/venv": true
+  },
   "search.showLineNumbers": true,
   "security.workspace.trust.untrustedFiles": "open",
   "terminal.integrated.cursorStyle": "line",
@@ -106,6 +108,7 @@
     "w"
   ],
   "vscode-neovim.ctrlKeysForNormalMode": [],
+  "window.zoomLevel": 1.8,
   "workbench.colorCustomizations": {
     // Color of Selected line
     "editor.lineHighlightBackground": "#303030"
@@ -115,7 +118,6 @@
   // Open tabs on multiple lines
   "workbench.editor.wrapTabs": true,
   "workbench.startupEditor": "none",
-  "window.zoomLevel": 1.8,
   // Markdown disables quick suggestions in plain text by default, which
   // also suppresses snippet auto-popup while typing prose
   "[markdown]": {
