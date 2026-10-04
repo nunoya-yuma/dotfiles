@@ -95,5 +95,43 @@
     {
         "key": "ctrl+[BracketLeft]",
         "command": "-vscode-neovim.escape"
+    },
+    // vscode-neovim doesn't forward Alt combos; send these to Neovim,
+    // where nvim/init.lua maps them to the Ctrl actions VS Code keeps
+    {
+        "key": "alt+d",
+        "command": "vscode-neovim.send",
+        "args": "<M-d>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+    },
+    {
+        "key": "alt+u",
+        "command": "vscode-neovim.send",
+        "args": "<M-u>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+    },
+    {
+        "key": "alt+v",
+        "command": "vscode-neovim.send",
+        "args": "<M-v>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+    },
+    {
+        "key": "alt+r",
+        "command": "vscode-neovim.send",
+        "args": "<M-r>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+    },
+    {
+        "key": "alt+a",
+        "command": "vscode-neovim.send",
+        "args": "<M-a>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
+    },
+    {
+        "key": "alt+x",
+        "command": "vscode-neovim.send",
+        "args": "<M-x>",
+        "when": "editorTextFocus && neovim.init && neovim.mode != insert"
     }
 ]
