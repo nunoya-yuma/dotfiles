@@ -13,6 +13,11 @@
   "explorer.autoReveal": false,
   "explorer.confirmDelete": false,
   "explorer.confirmDragAndDrop": false,
+  // Recommended by vscode-neovim: run it in its own extension host so
+  // other extensions can't delay key handling
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
   // Show .git/
   "files.exclude": {
     "**/.git": false
@@ -25,6 +30,13 @@
   "git.detectSubmodulesLimit": 100,
   "git.suggestSmartCommit": false,
   "gitlens.views.stashes.files.layout": "list",
+  // Run vscode-neovim next to the files (WSL, SSH, or local) so it uses
+  // that side's nvim and nvim/init.lua, with no per-machine useWSL/path
+  "remote.extensionKind": {
+    "asvetliakov.vscode-neovim": [
+      "workspace"
+    ]
+  },
   "ruff.lint.select": [
     "ALL"
   ],
@@ -71,23 +83,16 @@
     "workspaceFolder": "${workspaceFolder}"
   },
   "terminal.integrated.scrollback": 5000,
-  // Run vscode-neovim next to the files (WSL, SSH, or local) so it uses
-  // that side's nvim and nvim/init.lua, with no per-machine useWSL/path
-  "remote.extensionKind": {
-    "asvetliakov.vscode-neovim": [
-      "workspace"
-    ]
+  "vscode-neovim.compositeKeys": {
+    "jk": {
+      "command": "vscode-neovim.escape"
+    }
   },
-  // Recommended by vscode-neovim: run it in its own extension host so
-  // other extensions can't delay key handling
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
-  // vscode-neovim: hand every Ctrl key in normal/visual mode to VS Code
-  // (nvim/init.lua maps Space-leader stand-ins); in insert mode keep the
-  // default list minus "c", which is also checked in visual mode and
-  // would otherwise turn Ctrl+C on a mouse selection into Escape
-  "vscode-neovim.ctrlKeysForNormalMode": [],
+  // vscode-neovim: in insert mode keep the default Ctrl key list minus
+  // "c", which is also checked in visual mode and would otherwise turn
+  // Ctrl+C on a mouse selection into Escape; hand every Ctrl key in
+  // normal/visual mode to VS Code (nvim/init.lua maps Space-leader
+  // stand-ins)
   "vscode-neovim.ctrlKeysForInsertMode": [
     "a",
     "d",
@@ -100,11 +105,7 @@
     "u",
     "w"
   ],
-  "vscode-neovim.compositeKeys": {
-    "jk": {
-      "command": "vscode-neovim.escape"
-    }
-  },
+  "vscode-neovim.ctrlKeysForNormalMode": [],
   "workbench.colorCustomizations": {
     // Color of Selected line
     "editor.lineHighlightBackground": "#303030"
