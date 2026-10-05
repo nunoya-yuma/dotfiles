@@ -6,6 +6,8 @@
   "editor.fontFamily": "Consolas, Meiryo UI, 'Courier New', monospace",
   "editor.fontSize": 13,
   "editor.formatOnSave": true,
+  // Show jump counts for vscode-neovim motions like 5j / 12k
+  "editor.lineNumbers": "relative",
   "editor.renderWhitespace": "all",
   "editor.snippetSuggestions": "top",
   // When a file is selected,
@@ -117,12 +119,14 @@
   // Open tabs on multiple lines
   "workbench.editor.wrapTabs": true,
   "workbench.startupEditor": "none",
-  // Markdown disables quick suggestions in plain text by default, which
-  // also suppresses snippet auto-popup while typing prose
   "[markdown]": {
+    // Markdown disables quick suggestions in plain text by default, which
+    // also suppresses snippet auto-popup while typing prose
     "editor.quickSuggestions": {
       "other": true
-    }
+    },
+    // Keep trailing two-space hard breaks, matching the pre-commit hook
+    "files.trimTrailingWhitespace": false
   },
   "[python]": {
     "editor.defaultFormatter": "charliermarsh.ruff",
