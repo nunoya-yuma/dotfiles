@@ -1,7 +1,7 @@
-// Reference only — VS Code has no remote-scoped keybindings, so this is
-// never applied automatically by install.sh. See README for how to apply
-// it manually (Keyboard Shortcuts (JSON) editor), e.g. when using a
-// browser-based Codespace with no local VS Code profile.
+// install.sh links this into the local user scope (Linux or native
+// Windows). VS Code has no remote-scoped keybindings, so a client that
+// hasn't run install.sh (e.g. a browser-based Codespace) needs it pasted
+// manually into the Keyboard Shortcuts (JSON) editor — see README.
 [
     // ctrl + tab and ctrl + shift + tab -> move tab
     {
