@@ -169,14 +169,19 @@ Personal environment setup, managed so it can be reproduced automatically on
   Cursor and Gemini CLI read `AGENTS.md` / `GEMINI.md` only per-project
   (repo root and below), not from a global, user-level path, so there's
   nothing global to link for them yet.
-- `agents/skills/` — symlinked as a directory to `~/.claude/skills`
-  (same reasoning as `vscode/snippets` above), Claude Code's global user
-  skills. Each subdirectory follows the
+- `agents/skills/` — each skill subdirectory is symlinked individually
+  into `~/.claude/skills`, Claude Code's global user skills. Unlike
+  `vscode/snippets`, the destination is a real directory rather than a
+  directory link, because tools write their own skills there too (Claude
+  Code syncs claude.ai skills into `~/.claude/skills/synced`), and a
+  directory link would put those inside this repo. The flip side: re-run
+  `install.sh` after adding or removing a skill (it also drops links to
+  removed ones). Each subdirectory follows the
   [Agent Skills](https://agentskills.io) open standard (a `SKILL.md` with
   YAML frontmatter), which is also read by Codex CLI, Cursor, Gemini CLI,
   GitHub Copilot, and other compatible tools — so `install.sh` links the
-  same directory twice more: to `~/.agents/skills`, the universal path
-  most of those tools look for, and to `~/.copilot/skills`, GitHub
+  same skills twice more: into `~/.agents/skills`, the universal path
+  most of those tools look for, and into `~/.copilot/skills`, GitHub
   Copilot's own explicit path (not every Copilot surface is guaranteed to
   check the universal one) — making every skill here usable outside
   Claude Code too without any format changes. Because of that shared

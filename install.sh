@@ -147,7 +147,37 @@ fi
 # line) keeps a single tracked file that both Claude Code and any
 # AGENTS.md-native tool read unmodified.
 link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.claude/CLAUDE.md"
-link "$DOTFILES_DIR/agents/skills" "$HOME/.claude/skills"
+
+# Skills are linked one by one into a real directory rather than linking
+# the whole agents/skills directory: tools write their own skills into
+# these directories too (Claude Code syncs claude.ai skills into
+# ~/.claude/skills/synced), and a directory link would land those in this
+# repo — and, through the shared links below, in front of other tools.
+# Re-run this script after adding or removing a skill.
+link_skills() {
+  local dst_dir="$1" skill_md skill entry
+  # Older installs linked the whole directory; replace that link with a
+  # real directory (rm on a symlink removes only the link).
+  if [ -L "$dst_dir" ]; then
+    rm "$dst_dir"
+    echo "Replaced directory link $dst_dir with a real directory"
+  fi
+  mkdir -p "$dst_dir"
+  for skill_md in "$DOTFILES_DIR"/agents/skills/*/SKILL.md; do
+    skill="$(dirname "$skill_md")"
+    link "$skill" "$dst_dir/$(basename "$skill")"
+  done
+  # Drop links to skills since removed from this repo.
+  for entry in "$dst_dir"/*; do
+    if [ -L "$entry" ] && [ ! -e "$entry" ] &&
+      [[ "$(readlink "$entry")" == "$DOTFILES_DIR/agents/skills/"* ]]; then
+      rm "$entry"
+      echo "Removed stale link $entry"
+    fi
+  done
+}
+
+link_skills "$HOME/.claude/skills"
 
 # Codex CLI reads its own global personal instructions from
 # ~/.codex/AGENTS.md (distinct from any AGENTS.md nearer a project root) —
@@ -163,13 +193,13 @@ link "$DOTFILES_DIR/agents/AGENTS.md" "$HOME/.copilot/copilot-instructions.md"
 # The same SKILL.md files also work unmodified under ~/.agents/skills, the
 # universal directory read by Codex CLI, Cursor, Gemini CLI, and other
 # tools that implement the open Agent Skills standard (agentskills.io) —
-# link it too so skills written once are usable everywhere, whether or not
-# those tools happen to be installed on this machine.
-link "$DOTFILES_DIR/agents/skills" "$HOME/.agents/skills"
+# link them there too so skills written once are usable everywhere, whether
+# or not those tools happen to be installed on this machine.
+link_skills "$HOME/.agents/skills"
 
 # GitHub Copilot reads personal (cross-project) skills from ~/.copilot/skills
-# as well as ~/.agents/skills — link its own path explicitly too, since not
-# every Copilot surface is guaranteed to check the universal one.
-link "$DOTFILES_DIR/agents/skills" "$HOME/.copilot/skills"
+# as well as ~/.agents/skills — link into its own path explicitly too, since
+# not every Copilot surface is guaranteed to check the universal one.
+link_skills "$HOME/.copilot/skills"
 
 echo "dotfiles install complete."
