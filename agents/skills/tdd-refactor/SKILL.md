@@ -1,6 +1,6 @@
 ---
 name: tdd-refactor
-description: TDDのRefactorフェーズ。振る舞いを変えずに構造だけを改善する(Tidy First)。
+description: TDDのRefactorフェーズ。振る舞いを変えずに構造だけを改善する(Tidy First)。ユーザーが明示的に呼び出したときだけ使い、自分からは呼び出さない。
 disable-model-invocation: true
 ---
 

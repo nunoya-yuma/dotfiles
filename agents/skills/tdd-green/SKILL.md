@@ -1,6 +1,6 @@
 ---
 name: tdd-green
-description: TDDのGreenフェーズ。直前にRedになっている1つのテストを通す最小限の実装を行う。
+description: TDDのGreenフェーズ。直前にRedになっている1つのテストを通す最小限の実装を行う。ユーザーが明示的に呼び出したときだけ使い、自分からは呼び出さない。
 disable-model-invocation: true
 ---
 
