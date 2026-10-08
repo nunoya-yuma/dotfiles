@@ -1,9 +1,9 @@
 ---
-name: code-review
+name: self-review
 description: これはコードレビューをする際に参考にしてください。コミットの直前やユーザからのリクエストで実行してください。
 ---
 
-# Code Review
+# Self Review
 
 ## Overview
 

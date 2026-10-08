@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: セッション中に得た学びをCLAUDE.md/AGENTS.md（ローカル/グローバル）や既存skillへ反映する際に参考にしてください。コミット直前にcode-reviewと合わせて、もしくはユーザからのリクエストで実行してください。
+description: セッション中に得た学びをCLAUDE.md/AGENTS.md（ローカル/グローバル）や既存skillへ反映する際に参考にしてください。コミット直前にself-reviewと合わせて、もしくはユーザからのリクエストで実行してください。
 ---
 
 # Reflect
