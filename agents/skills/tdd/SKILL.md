@@ -60,14 +60,18 @@ description: ユーザとTDDを実行する。実装を始めるときやplanモ
 1. テスト、実装が完了したとき、"/gen-test"でテストの過不足を確認する。コミットはグローバルの作業方針(AGENTS.md)のコミット前の手順に従い、ユーザーの確認を得てから行う
 1. TODOリスト、テストリストの見直しを行う。`.private-scratch/test-list.md`も更新する
 
-## Example
+## Example: ユーザーに書いてもらう箇所の示し方
 
-## Bad case
+テストや実装の一部をユーザーに書いてもらう場合(`TODO(human)`を置くなど)は、何をするかの手順だけを示し、具体的なコードは書かない。答えまで書いてあるとコメントを外すだけで済んでしまい、ユーザーが考える余地がなくなるため。
+
+### Bad case
+
+モックの組み立て方・具体的な値・分岐まで書いてあり、ほぼ答えになっている。
 
 ```
 def test_fetch_url(){
   // TODO(human)
-  // requeset = mock()
+  // request = mock()
   // request.return = {
   //   "result": 0,
   //   "body": "test-content"
@@ -90,7 +94,9 @@ def fetch_url(url)
 }
 ```
 
-## Good case
+### Good case
+
+何をするかの手順だけを示し、どう書くかはユーザーに任せている。
 
 ```
 def test_fetch_url(){
