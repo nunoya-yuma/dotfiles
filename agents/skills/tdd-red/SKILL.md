@@ -1,6 +1,6 @@
 ---
 name: tdd-red
-description: TDDのRedフェーズ。テストリストから1つだけテストケースを選び、実行可能なテストコードを書いてRedになることを確認する。
+description: TDDのRedフェーズ。テストリストから1つだけテストケースを選び、実行可能なテストコードを書いてRedになることを確認する。ユーザーが明示的に呼び出したときだけ使い、自分からは呼び出さない。
 disable-model-invocation: true
 ---
 
