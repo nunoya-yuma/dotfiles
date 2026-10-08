@@ -73,5 +73,9 @@ matter here:
   default that only makes sense where that shell is installed) must be set
   by hand through VS Code's own Remote Settings UI on that machine — this
   repo has no visibility into it and never will.
+- Keybindings and snippets have no remote scope at all: a remote session
+  uses the connecting client's own. From a client that hasn't run
+  `install.sh`, paste `vscode/keybindings.json` into "Preferences: Open
+  Keyboard Shortcuts (JSON)" by hand.
 - macOS's local user scope path
   (`~/Library/Application Support/Code/User`) still isn't handled.
