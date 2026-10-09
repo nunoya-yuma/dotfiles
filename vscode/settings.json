@@ -54,6 +54,9 @@
       "workspace"
     ]
   },
+  // Let a repo's pyproject.toml / ruff.toml win over the lint settings
+  // below; the default (editorFirst) would impose them on every repo
+  "ruff.configurationPreference": "filesystemFirst",
   "ruff.lint.ignore": [
     "COM812", // trailing comma conflicts with formatter
     "CPY", // this project does not use copyright header comments
