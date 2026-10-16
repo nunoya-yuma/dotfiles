@@ -1,6 +1,8 @@
 [user]
-	name = nunoya-yuma
-	email = nuno.yu.3838@gmail.com
+	# Identity differs per machine (personal vs. work), so it lives in
+	# ~/.gitconfig.local (included at the end). Refuse to commit rather
+	# than guess an identity from the hostname when it's missing.
+	useConfigOnly = true
 [init]
 	defaultBranch = main
 [core]
@@ -23,3 +25,7 @@
 	# relationship to main, so -d would refuse to delete it even
 	# though the remote confirms it's done.
 	gone = "!git fetch --prune && git for-each-ref --format='%(refname:short) %(upstream:track)' refs/heads | awk '$2 == \"[gone]\" {print $1}' | xargs -r git branch -D"
+# Last, so machine-specific settings override everything above.
+# Silently skipped if the file doesn't exist.
+[include]
+	path = ~/.gitconfig.local

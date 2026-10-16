@@ -89,6 +89,24 @@ fi
 link "$DOTFILES_DIR/git/gitconfig" "$HOME/.gitconfig"
 link "$DOTFILES_DIR/git/hooks" "$HOME/.githooks"
 
+GIT_LOCAL="$HOME/.gitconfig.local"
+if [ ! -e "$GIT_LOCAL" ]; then
+  cat > "$GIT_LOCAL" <<'EOF'
+# Machine-specific git settings.
+# Not tracked by the dotfiles repo — set the identity for this machine
+# here. Included automatically by ~/.gitconfig.
+#
+# [user]
+# 	name = Your Name
+# 	email = you@example.com
+#
+# To switch identity by directory on a shared machine:
+# [includeIf "gitdir:~/work/"]
+# 	path = ~/.gitconfig.work
+EOF
+  echo "Created $GIT_LOCAL — set user.name/user.email there before committing"
+fi
+
 # nvim
 link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 

@@ -24,7 +24,7 @@ backing up any existing non-symlink file as `<file>.bak.<timestamp>`.
 |---|---|---|
 | `bash/bash_aliases` | `~/.bash_aliases` | Aliases, PATH, fzf. Machine-specific additions go in `~/.bash_aliases.local` (created empty on first run) |
 | `zsh/zshrc` | `~/.zshrc` (only if zsh is installed) | Mirrors the bash setup. Machine-specific additions go in `~/.zshrc.local` |
-| `git/gitconfig` | `~/.gitconfig` | |
+| `git/gitconfig` | `~/.gitconfig` | No identity committed: set `user.name`/`user.email` per machine in `~/.gitconfig.local` (created as a template on first run). Commits fail until it's set |
 | `git/hooks/` | `~/.githooks` (global `core.hooksPath`) | Runs the repo's own hook first, then a secret scan (`pre-commit`) and trailing-newline fix. Bypass once with `--no-verify` |
 | `nvim/` | `~/.config/nvim` | Trial config for the VS Code Neovim extension |
 | `vscode/settings.json`, `keybindings.json`, `snippets/` | VS Code local user scope (Linux or Windows) | Remote machine scope is not managed ([0001](docs/decisions/0001-vscode-settings-scope-tracking.md)). Snippet files must be named `<languageId>.json` |
@@ -66,8 +66,8 @@ Not installed by `install.sh`; the config works without them.
 ## Secrets
 
 Nothing sensitive (API keys, tokens, SSH private keys) belongs in this repo —
-it's meant to be safe to keep public. The committed git identity here is
-just a name/email, which is already public on every commit anyway.
+it's meant to be safe to keep public. The git identity is kept out too,
+since it differs between personal and work machines.
 
 ## Design decisions
 
