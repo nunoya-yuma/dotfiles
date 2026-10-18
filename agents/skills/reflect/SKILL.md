@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: セッション中に得た学びをCLAUDE.md/AGENTS.md（ローカル/グローバル）や既存skillへ反映する際に参考にしてください。コミット直前（self-reviewと合わせて）やタスク完了時、もしくはユーザからのリクエストで実行してください。
+description: セッション中に得た学びをCLAUDE.md/AGENTS.md（ローカル/グローバル）、`.private-scratch/AGENTS.md`や既存skillへ反映する際に参考にしてください。コミット直前（self-reviewと合わせて）やタスク完了時、もしくはユーザからのリクエストで実行してください。
 ---
 
 # Reflect
@@ -21,7 +21,8 @@ description: セッション中に得た学びをCLAUDE.md/AGENTS.md（ローカ
 
 ## 反映先の判断
 
-- プロジェクト固有の知見 → カレントプロジェクトのローカルCLAUDE.md/AGENTS.md（存在しなければ新規作成してよい）
+- プロジェクト固有でチームと共有すべき知見 → カレントプロジェクトのローカルCLAUDE.md/AGENTS.md（存在しなければ新規作成してよい）
+- プロジェクト固有だが個人的な知見（自分の作業手順・環境・好みなど、チームの管理対象にすべきでないもの） → `.private-scratch/AGENTS.md`（存在しなければ新規作成してよい）
 - プロジェクトを問わない汎用的なワークフロー・好み → グローバルのCLAUDE.md/AGENTS.md
 - 特定skillの使い方・判断基準に関する知見 → 該当skillのSKILL.md
 
