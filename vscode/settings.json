@@ -1,6 +1,10 @@
 {
   "cmake.configureOnEdit": false,
   "cmake.configureOnOpen": false,
+  // Show moved code blocks as moves instead of delete + add
+  "diffEditor.experimental.showMoves": true,
+  // Collapse unchanged regions so only changed lines and their context show
+  "diffEditor.hideUnchangedRegions.enabled": true,
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.acceptSuggestionOnEnter": "off",
   "editor.fontFamily": "Consolas, Meiryo UI, 'Courier New', monospace",
