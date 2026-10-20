@@ -7,7 +7,9 @@
   "diffEditor.hideUnchangedRegions.enabled": true,
   "diffEditor.ignoreTrimWhitespace": false,
   "editor.acceptSuggestionOnEnter": "off",
-  "editor.fontFamily": "Consolas, Meiryo UI, 'Courier New', monospace",
+  // Consolas for ASCII, BIZ UDGothic (monospace, bundled since Windows 10
+  // 1809) for Japanese; DejaVu / Noto CJK are Linux-desktop fallbacks
+  "editor.fontFamily": "Consolas, 'BIZ UDGothic', 'DejaVu Sans Mono', 'Noto Sans Mono CJK JP', monospace",
   "editor.fontSize": 13,
   "editor.formatOnSave": true,
   // Show jump counts for vscode-neovim motions like 5j / 12k
