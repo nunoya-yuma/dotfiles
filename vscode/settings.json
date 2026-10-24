@@ -103,11 +103,13 @@
   },
   // vscode-neovim: in insert mode keep the default Ctrl key list minus
   // "c", which is also checked in visual mode and would otherwise turn
-  // Ctrl+C on a mouse selection into Escape; hand every Ctrl key in
-  // normal/visual mode to VS Code (nvim/init.lua maps Alt stand-ins)
+  // Ctrl+C on a mouse selection into Escape, and minus "d", so Ctrl+D
+  // adds VS Code multi-cursor selections that typing edits (from normal
+  // mode the selections become visual mode, where only one is edited);
+  // hand every Ctrl key in normal/visual mode to VS Code (nvim/init.lua
+  // maps Alt stand-ins)
   "vscode-neovim.ctrlKeysForInsertMode": [
     "a",
-    "d",
     "h",
     "j",
     "m",
