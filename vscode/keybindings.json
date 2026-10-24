@@ -96,6 +96,12 @@
         "key": "ctrl+[BracketLeft]",
         "command": "-vscode-neovim.escape"
     },
+    // It also maps Ctrl+[ to Escape in every mode, shadowing VS Code's
+    // outdent (editor.action.outdentLines); "jk" remains as Escape
+    {
+        "key": "ctrl+[",
+        "command": "-vscode-neovim.escape"
+    },
     // vscode-neovim doesn't forward Alt combos; send these to Neovim,
     // where nvim/init.lua maps them to the Ctrl actions VS Code keeps
     {
