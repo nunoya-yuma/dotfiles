@@ -107,6 +107,22 @@ EOF
   echo "Created $GIT_LOCAL — set user.name/user.email there before committing"
 fi
 
+# ssh: one key per machine, generated here and never shared, so a lost
+# machine is revoked alone. Codespaces authenticates to GitHub without one.
+if [ "${CODESPACES:-}" != "true" ] && command -v ssh-keygen >/dev/null 2>&1; then
+  if [ -e "$HOME/.ssh/id_ed25519" ]; then
+    echo "Already have ~/.ssh/id_ed25519"
+  elif [ -t 0 ]; then
+    # Prompts for a passphrase (Enter for none).
+    mkdir -p "$HOME/.ssh"
+    chmod 700 "$HOME/.ssh"
+    ssh-keygen -t ed25519 -C "$(whoami)@$(hostname)" -f "$HOME/.ssh/id_ed25519"
+    echo "Created ~/.ssh/id_ed25519 — register it with: gh ssh-key add ~/.ssh/id_ed25519.pub --title \"$(hostname)\""
+  else
+    echo "Skipped SSH key generation (no terminal for the passphrase prompt); re-run install.sh interactively"
+  fi
+fi
+
 # nvim
 link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 
