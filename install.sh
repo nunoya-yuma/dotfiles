@@ -123,6 +123,31 @@ if [ "${CODESPACES:-}" != "true" ] && command -v ssh-keygen >/dev/null 2>&1; the
   fi
 fi
 
+mkdir -p "$HOME/.ssh"
+chmod 700 "$HOME/.ssh"
+SSH_LOCAL="$HOME/.ssh/config.local"
+# Keep a hand-written config working by moving it to the included file,
+# rather than leaving it in a .bak that nothing reads.
+if [ -f "$HOME/.ssh/config" ] && [ ! -L "$HOME/.ssh/config" ] && [ ! -e "$SSH_LOCAL" ]; then
+  mv "$HOME/.ssh/config" "$SSH_LOCAL"
+  echo "Moved existing ~/.ssh/config to $SSH_LOCAL"
+fi
+link "$DOTFILES_DIR/ssh/config" "$HOME/.ssh/config"
+
+if [ ! -e "$SSH_LOCAL" ]; then
+  cat > "$SSH_LOCAL" <<'EOF'
+# Machine-specific SSH hosts.
+# Not tracked by the dotfiles repo — included first by ~/.ssh/config,
+# so entries here override the shared ones.
+#
+# Host myserver
+#     HostName 192.0.2.10
+#     User me
+EOF
+  chmod 600 "$SSH_LOCAL"
+  echo "Created $SSH_LOCAL"
+fi
+
 # nvim
 link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 

@@ -27,6 +27,7 @@ backing up any existing non-symlink file as `<file>.bak.<timestamp>`.
 | `git/gitconfig` | `~/.gitconfig` | No identity committed: set `user.name`/`user.email` per machine in `~/.gitconfig.local` (created as a template on first run). Commits fail until it's set |
 | `git/hooks/` | `~/.githooks` (global `core.hooksPath`) | Runs the repo's own hook first, then a secret scan (`pre-commit`) and trailing-newline fix. Bypass once with `--no-verify` |
 | — | `~/.ssh/id_ed25519` | Generated once per machine if missing (skipped in Codespaces); the private key never enters this repo. Register it with `gh ssh-key add ~/.ssh/id_ed25519.pub --title "$(hostname)"` |
+| `ssh/config` | `~/.ssh/config` | GitHub host only. Machine-specific hosts go in `~/.ssh/config.local` (created as a template on first run) |
 | `nvim/` | `~/.config/nvim` | Trial config for the VS Code Neovim extension |
 | `vscode/settings.json`, `keybindings.json`, `snippets/` | VS Code local user scope (Linux or Windows) | Remote machine scope is not managed ([0001](docs/decisions/0001-vscode-settings-scope-tracking.md)). Snippet files must be named `<languageId>.json` |
 | `vscode/extensions.txt` | — | Not installed automatically (see below) |

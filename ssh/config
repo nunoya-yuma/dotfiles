@@ -1,0 +1,11 @@
+# Shared SSH settings, linked to ~/.ssh/config by install.sh.
+# Machine-specific hosts (LAN machines, EC2, ...) go in ~/.ssh/config.local.
+
+# First, so local entries win: ssh uses the first value it sees for each
+# option. A missing file is silently skipped.
+Include ~/.ssh/config.local
+
+# The key itself is the default ~/.ssh/id_ed25519 that install.sh generates.
+Host github github.com
+    HostName github.com
+    User git
