@@ -29,6 +29,7 @@ backing up any existing non-symlink file as `<file>.bak.<timestamp>`.
 | — | `~/.ssh/id_ed25519` | Generated once per machine if missing (skipped in Codespaces); the private key never enters this repo. Register it with `gh ssh-key add ~/.ssh/id_ed25519.pub --title "$(hostname)"` |
 | `ssh/config` | `~/.ssh/config` | GitHub host only. Machine-specific hosts go in `~/.ssh/config.local` (created as a template on first run) |
 | `nvim/` | `~/.config/nvim` | Trial config for the VS Code Neovim extension |
+| `gdb/gdbinit` | `~/.config/gdb/gdbinit` | Needs GDB 11+. Also applies when VS Code (cpptools) runs gdb. A `~/.gdbinit`, if present, is ignored |
 | `vscode/settings.json`, `keybindings.json`, `snippets/` | VS Code local user scope (Linux or Windows) | Remote machine scope is not managed ([0001](docs/decisions/0001-vscode-settings-scope-tracking.md)). Snippet files must be named `<languageId>.json` |
 | `vscode/extensions.txt` | — | Not installed automatically (see below) |
 | `agents/AGENTS.md` | `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.copilot/copilot-instructions.md` | Global instructions shared by coding agents ([0002](docs/decisions/0002-agent-instructions-and-skills-linking.md)) |
