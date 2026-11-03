@@ -12,3 +12,4 @@ ms-vscode.cpptools
 ms-vscode.live-server
 rust-lang.rust-analyzer
 twxs.cmake
+vadimcn.vscode-lldb

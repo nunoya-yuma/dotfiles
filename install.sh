@@ -151,6 +151,9 @@ fi
 # nvim
 link "$DOTFILES_DIR/nvim" "$HOME/.config/nvim"
 
+# gdb
+link "$DOTFILES_DIR/gdb/gdbinit" "$HOME/.config/gdb/gdbinit"
+
 # vscode (local user scope; extensions.txt is installed manually)
 VSCODE_USER_DIR="$HOME/.config/Code/User"
 link "$DOTFILES_DIR/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"

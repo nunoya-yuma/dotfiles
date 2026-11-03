@@ -1,0 +1,23 @@
+# Read by GDB 11+ from ~/.config/gdb/gdbinit, including when VS Code's
+# cpptools launches it, so keep it to settings that don't fight the GUI.
+
+# Readable values
+set print pretty on
+# Show the dynamic type behind base-class pointers.
+set print object on
+# Hide static members, which clutter VS Code's variables view.
+set print static-members off
+set print asm-demangle on
+
+# Command history for terminal sessions
+set history save on
+set history filename ~/.gdb_history
+set history size unlimited
+set history remove-duplicates unlimited
+
+set pagination off
+set confirm off
+
+# Last: an error aborts the rest of this file, and builds without
+# debuginfod support reject this line.
+set debuginfod enabled on
