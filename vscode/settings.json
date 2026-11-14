@@ -127,6 +127,9 @@
   },
   "workbench.editor.closeOnFileDelete": true,
   "workbench.editor.enablePreview": false,
+  // Equal-width tabs like a browser; min width keeps a few filename chars visible
+  "workbench.editor.tabSizing": "fixed",
+  "workbench.editor.tabSizingFixedMinWidth": 80,
   // Open tabs on multiple lines
   "workbench.editor.wrapTabs": true,
   "workbench.startupEditor": "none",
